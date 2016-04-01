@@ -1,0 +1,38 @@
+{
+  "name": "booktradeclub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "angular.js",
+    "node.js",
+    "express.js",
+    "mongo",
+    "d.b",
+    "mongoose",
+    "rest",
+    "api",
+    "crud"
+  ],
+  "author": "raheela khan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "compression": "^1.6.1",
+    "connect-flash": "^0.1.1",
+    "crypto": "0.0.3",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.10",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "should": "^8.3.0",
+    "supertest": "^1.2.0"
+  }
+}

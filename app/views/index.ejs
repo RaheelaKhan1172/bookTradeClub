@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ./partials/header %>
+  </head>
+  
+  <body>
+        <% if ( userFullName ) { %>
+           <h2>Hello <%=userFullName%> </h2>
+           <a href="/signout">Sign out</a>
+         <% } else { %>
+           <a href="/signup">Signup</a>
+           <a href="/signin">Signin</a>
+        <% } %>
+    <h1> Hi hi </h1>
+  </body>
+</html>
