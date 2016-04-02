@@ -18,6 +18,7 @@ describe('Testing save method', function() {
             should.not.exist(err);
         });
     });
+    
     it('Should not save user without firstname, lastname, password, and email', function() {
        user.firstName = '';
         user.lastName = '';

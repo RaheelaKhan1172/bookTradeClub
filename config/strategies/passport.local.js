@@ -3,7 +3,6 @@ var passport = require('passport'),
     User = require('mongoose').model('User');
     
 module.exports = function() {
-    console.log('am i fucking this up');
     passport.use(new LocalStrategy(function(username,password,done) {
         User.findOne({
             email: username
@@ -25,7 +24,6 @@ module.exports = function() {
                     message: "Wrong password! Try again"
                 });
             } */
-            console.log('hello is this happening?');
             //no errors, user document is found
             return done(null,user);
         });

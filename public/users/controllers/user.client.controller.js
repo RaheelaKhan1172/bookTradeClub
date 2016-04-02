@@ -3,18 +3,21 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
       $scope.authenticated = false;
  
       $scope.user = {};
+      
       $scope.checkAuth = function() {
           if ($scope.user.length) {
               $scope.authenticated = true;
               $location.path('/');
           }
       }
+      $scope.hi = 'HEY';
       
       $scope.login = function() {
         var send = {
             username: $scope.username,
             password: $scope.password
         };
+          
         $http({
             url:'/signin',
             method: 'POST',

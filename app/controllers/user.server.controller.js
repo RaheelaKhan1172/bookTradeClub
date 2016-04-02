@@ -69,7 +69,7 @@ exports.signup = function(req,res,next) {
 };
 
 exports.handleResults = function(req,res,next) {
-
+    //add stuff
 };
 
 exports.signout = function(req,res) {

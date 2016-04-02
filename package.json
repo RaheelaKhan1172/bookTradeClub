@@ -29,10 +29,15 @@
     "express-session": "^1.13.0",
     "mongoose": "^4.4.10",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
   },
   "devDependencies": {
     "should": "^8.3.0",
-    "supertest": "^1.2.0"
+    "supertest": "^1.2.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-jasmine": "^0.3.8",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "phantomjs-prebuilt": "^2.1.7"
   }
 }
