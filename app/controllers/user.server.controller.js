@@ -17,7 +17,7 @@ var getErrorMessage = function(err) {
     
 };
 
-exports.renderSignIn = function(req,res,next) {
+/*exports.renderSignIn = function(req,res,next) {
     if (!req.user) {
         res.render('signin', {
             title: 'Sign In',
@@ -37,32 +37,39 @@ exports.renderSignUp = function(req,res,next) {
   }  else {
       return res.redirect('/');
   }
-};
+}; */
 
 exports.signup = function(req,res,next) {
   if (!req.user) {
       var user = new User(req.body); //req.body === form
       var message = null;
-      
       user.provider = 'local';
       user.email = user.email.toUpperCase();
       user.save(function(err) {
           if (err) {
               var message = getErrorMessage(err);
-              req.flash('error', message);
-              return res.redirect('/signup');
+              console.log('sent from hre?');
+              res.json({message});
           }
           //manual call for req.login used for registering new users
           req.login(user,function(err) {
               if (err) {
-                  return next(err);
+                  console.log('or here',err);
+                  
+                  res.json({err});
               }
-              return res.redirect('/');
+              return res.status(200).json({
+                id: user._id
+              });
           });
       });
   } else {
       return res.redirect('/');
   } 
+};
+
+exports.handleResults = function(req,res,next) {
+
 };
 
 exports.signout = function(req,res) {

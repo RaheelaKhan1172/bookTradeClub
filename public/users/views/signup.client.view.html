@@ -1,0 +1,40 @@
+<section data-ng-controller="UserController" class="center-block text-center" ng-init="checkAuth()">
+    <div ng-hide="authenticated">
+    <form novalidate class="mForm form-horizontal" data-ng-submit="signup()">
+        <div class="form-group">
+            <label for="firstName1" class="col-sm-2 control-label">First name</label>
+            <div class="col-sm-10">
+                <input type="firstName" class="form-control" ng-model="user.firstName"id="firstName1" placeholder="First name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastName1" class="col-sm-2 control-label">Last name</label>
+            <div class="col-sm-10">
+                <input type="lastName" class="form-control" ng-model="user.lastName" id="lastName1" placeholder="Last name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email1" class="col-sm-2 control-label">Email</label> 
+            <div class="col-sm-10">
+                <input type="email" class="form-control" ng-model="user.email" id="email1" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password1" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" ng-model="user.password" id="password1" placeholder="Password">
+            </div>
+        </div>
+        <div class="row">
+        <div class="form-group">
+                <div class="col-sm-offset-2">
+                    <button type="submit" class="btn btn-default signup"> Sign up</button>
+                </div>
+                <div class="col-sm-offset-2 ">
+                    <a class="btn btn-default" href="/#!/signin" role="button">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</section>

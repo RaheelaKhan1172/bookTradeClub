@@ -9,9 +9,12 @@
            <h2>Hello <%=userFullName%> </h2>
            <a href="/signout">Sign out</a>
          <% } else { %>
-           <a href="/signup">Signup</a>
-           <a href="/signin">Signin</a>
+           <a href="/#!/signup">Signup</a>
+           <a href="/#!/signin">Signin</a>
         <% } %>
-    <h1> Hi hi </h1>
+      
+      <section ng-view></section>
+      
+      <% include ./partials/links %>
   </body>
 </html>

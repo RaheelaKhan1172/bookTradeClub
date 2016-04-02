@@ -1,0 +1,29 @@
+<section data-ng-controller="UserController" class="center-block text-center" ng-init="checkAuth()">
+    <div ng-hide="authenticated">
+    <form  class="mForm form-horizontal" novalidate>
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="email" placeholder="Email" ng-model='username' required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputpassword" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputpassword" placeholder="Password" ng-model='password' required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2">
+                <button type="submit" class="btn btn-default" ng-click="login()">Sign in</button>
+            </div>
+            <div class="col-sm-offset-2">
+                <a class="btn btn-default" href="/#!/signup" role="button">Sign up</a>
+            </div>
+        </div>
+    </form>
+        <div ng-show="error">
+            <span ng-bind="error"></span>
+        </div>
+    </div>
+</section>

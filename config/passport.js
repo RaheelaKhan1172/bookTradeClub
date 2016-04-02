@@ -3,8 +3,9 @@ var passport = require('passport'),
 
 module.exports = function() {
     var User = mongoose.model('User');
-    
+    console.log('hello');
     passport.serializeUser(function(user,done) {
+        console.log('hi', user);
         done(null,user.id);
     });
     
