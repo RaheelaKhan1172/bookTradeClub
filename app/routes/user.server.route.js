@@ -9,6 +9,7 @@ module.exports = function(app) {
     .post(passport.authenticate('local'), function(req,res) {
         users.handleResults(req.user,res);
     });
+    app.get('/user', users.user);
     
     app.get('/signout', users.signout);
 }

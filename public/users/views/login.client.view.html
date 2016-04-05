@@ -1,5 +1,6 @@
-<section data-ng-controller="UserController" class="center-block text-center" ng-init="checkAuth()">
-    <div ng-hide="authenticated">
+<section ng-cloak data-ng-controller="UserController" class="center-block text-center">
+    <div ng-hide="authenticated"  ng-init="findData()" ng-cloak>
+        <div ng-if="!authenticated" ng-cloak>
     <form  class="mForm form-horizontal" novalidate>
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email</label>
@@ -21,9 +22,10 @@
                 <a class="btn btn-default" href="/#!/signup" role="button">Sign up</a>
             </div>
         </div>
-    </form>
+            </form>
+        </div>
+    </div>
         <div ng-show="error">
             <span ng-bind="error"></span>
         </div>
-    </div>
 </section>

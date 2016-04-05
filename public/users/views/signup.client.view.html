@@ -1,5 +1,6 @@
-<section data-ng-controller="UserController" class="center-block text-center" ng-init="checkAuth()">
-    <div ng-hide="authenticated">
+<section ng-cloak data-ng-controller="UserController" class="center-block text-center">
+    <div ng-hide="authenticated"  ng-init="findData()" ng-cloak>
+        <div ng-if="!authenticated">
     <form novalidate class="mForm form-horizontal" data-ng-submit="signup()">
         <div class="form-group">
             <label for="firstName1" class="col-sm-2 control-label">First name</label>
@@ -36,5 +37,6 @@
             </div>
         </div>
     </form>
+    </div>
     </div>
 </section>

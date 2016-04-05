@@ -9,4 +9,5 @@ mainApplicationModule.config(['$locationProvider', function($locationProvider) {
 
 angular.element(document).ready(function() {
     angular.bootstrap(document,[mainApplicationModuleName]);
+    
 });
