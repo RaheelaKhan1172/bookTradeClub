@@ -2,14 +2,13 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
   function($scope,$http,$location,Authentication) {
       
       $scope.user = {}; //for view
-      console.log($scope.user,'hi outside');
       console.log('auth', $scope.authenticated);
       
       var setScope = function(data) {
           if (data !== null) {
               $scope.user = data;
               $scope.authenticated = true;
-              console.log(data, typeof data);
+              console.log(data, typeof data,$scope.user);
               Authentication.setData(JSON.stringify(data));
               console.log(Authentication.getData());
           } else {

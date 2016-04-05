@@ -70,13 +70,14 @@ exports.signup = function(req,res,next) {
               if (err) {
                   console.log('or here',err);
                   
-                  res.json({err});
-              }
-              console.log('hello hey');
-              return res.status(200).json({
-                firstName: user.firstName,
-                email: user.email
+                  return res.json({err});
+              } else {
+                  console.log('hello hey');
+                  return res.status(200).json({
+                      firstName: user.firstName,
+                      email: user.email
               });
+              }
           });
       });
   } else {
