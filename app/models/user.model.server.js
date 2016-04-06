@@ -13,11 +13,19 @@ var UserSchema = new Schema({
         trim: true,
         required: true
     },
+    city: String,
+    state: String,
     email: {
         type: String,
         required:true,
         unique: true,
-        match: /^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$/
+        match: /^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$/,
+        validate: [
+            function(email) {
+                return email.length;
+            },
+            'Email cannot be blank'
+        ]
     },
     password: {
         type: String,

@@ -3,6 +3,7 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
       
       $scope.user = {}; //for view
       console.log('auth', $scope.authenticated);
+      $scope.userLogin = {};
       
       var setScope = function(data) {
           if (data !== null) {
@@ -15,27 +16,27 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
               $scope.authenticated = false;
           }
           console.log('new stuff', $scope.user, $scope.authenticated);
-      }
+      };
       
       $scope.login = function() {
         var send = {
-            username: $scope.username,
-            password: $scope.password
+            username: $scope.userLogin.username.toUpperCase(),
+            password: $scope.userLogin.password
         };
-          
+        
         $http({
             url:'/signin',
             method: 'POST',
             data: send,
             headers: {"Content-Type": "application/json;charset=utf-8"}
         }).then(function(response) {
-          console.log('response',response);  
+            console.log('response',response);  
             setScope(response.data);
             $location.path('/');
         }, function(error) {
             $scope.error = "Hmm, couldn't find that password/email combination. Try again!"
         });
-      }
+      };
       
       
       $scope.signup = function() {
@@ -51,7 +52,7 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
           }, function(error) {
               console.log('error',error);
           });
-      }
+      };
       
       $scope.signOut = function() {
           $http({
@@ -65,11 +66,12 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
               $location.path('/');
               
           });
-      }
+      };
       
        $scope.findData = function() {
            var data = Authentication.getData();
            if (data) {
+                $scope.user = JSON.parse(data);
                 $scope.authenticated = true;    
            } else {
                $scope.authenticated = false;

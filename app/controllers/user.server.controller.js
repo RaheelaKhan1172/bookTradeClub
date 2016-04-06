@@ -87,9 +87,16 @@ exports.signup = function(req,res,next) {
 
 exports.handleResults = function(req,res,next) {
     //add stuff
+    var data = {
+        firstName: req.firstName,
+        email: req.email
+    };
+    
+    return res.status(200).json(data);
+    
 };
 
 exports.signout = function(req,res) {
     req.logout();
     res.redirect('/');
-}
+};

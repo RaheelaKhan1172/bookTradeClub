@@ -15,6 +15,14 @@ angular.module('users').factory("Authentication",['$window','$rootScope', functi
         },
         removeData: function() {
             return $window.localStorage && $window.localStorage.clear();
+        },
+        loggedIn: function() {
+            console.log($window.localStorage, $window.localStorage.length)
+            if ($window.localStorage.length) {
+                return true;
+            }  else {
+                return false;
+            };
         }
     };
 }]);
