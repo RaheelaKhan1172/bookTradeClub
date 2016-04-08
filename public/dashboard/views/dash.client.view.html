@@ -1,4 +1,19 @@
-<section>
-    <h1> hey hi</h1>
-    <p> why n work</p>
+<section ng-controller="DashController" ng-init="getData()">
+    <section ng-controller="UserController">
+        <div ng-init="findData()">
+            <h3>Hi {{user.firstName}} </h3>
+        </div>
+        <button class="btn btn-default" ng-click="signOut()">Signout</button>
+    </section>
+    
+    <h3> {{user.books.length}} books</h3>
+    
+    
+    <div>
+        <h3> my books</h3>
+    </div>
+    
+    <div>trade requests i made</div>
+    <div>trade requests for me</div>
+    <div> add a book</div>
 </section>

@@ -3,5 +3,4 @@ angular.module('dashboard').config(['$routeProvider', function($routeProvider) {
         templateUrl:'dashboard/views/dash.client.view.html',
         authenticate: true
     });
-    
-}])
+}]);

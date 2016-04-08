@@ -33,7 +33,11 @@ module.exports = function() {
   
   require ('../app/routes/inder.server.route.js')(app);
   require('../app/routes/user.server.route.js')(app);
+    
   app.use(express.static('./public'));
 
+    //404 errors
+  require('../app/routes/error.server.route.js')(app);
+    
   return app; 
 }

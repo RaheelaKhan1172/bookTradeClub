@@ -5,7 +5,7 @@ describe('User E2E Tests:', function() {
             
             element(by.model('user.firstName')).sendKeys('cool');
             element(by.model('user.lastName')).sendKeys('test');
-            element(by.model('user.email')).sendKeys('cooltest12@something.com');
+            element(by.model('user.email')).sendKeys('cooltest14@something.com');
             element(by.model('user.password')).sendKeys('123456789');
             
             element(by.css('button[type=submit]')).click();
@@ -30,7 +30,7 @@ describe('User E2E Tests:', function() {
             
             browser.get('http://localhost:3030/#!/signin');
             
-            element(by.model('userLogin.username')).sendKeys('cooltest12@something.com');
+            element(by.model('userLogin.username')).sendKeys('cooltest14@something.com');
             element(by.model('userLogin.password')).sendKeys('123456789');
             
             element(by.css('button[type=submit]')).click();

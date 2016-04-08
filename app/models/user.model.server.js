@@ -17,14 +17,14 @@ var UserSchema = new Schema({
     state: String,
     email: {
         type: String,
-        required:true,
+        required:[true, 'Email cannot be blank'],
         unique: true,
         match: /^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$/,
         validate: [
             function(email) {
-                return email.length;
+                return email.match(/^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$/);
             },
-            'Email cannot be blank'
+             'Please input a valid email address'
         ]
     },
     password: {
@@ -49,6 +49,10 @@ var UserSchema = new Schema({
     books: [{
         type: Schema.ObjectId,
         ref: 'Book'
+    }],
+    requests: [{
+        type:Schema.ObjectId,
+        ref: 'Trade'
     }]
 });
 

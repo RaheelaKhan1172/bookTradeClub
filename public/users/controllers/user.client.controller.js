@@ -2,19 +2,19 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
   function($scope,$http,$location,Authentication) {
       
       $scope.user = {}; //for view
-      console.log('auth', $scope.authenticated);
       $scope.userLogin = {};
       
       var setScope = function(data) {
-          if (data !== null) {
+      //    if (data !== null) {
               $scope.user = data;
               $scope.authenticated = true;
-              console.log(data, typeof data,$scope.user);
-              Authentication.setData(JSON.stringify(data));
-              console.log(Authentication.getData());
-          } else {
-              $scope.authenticated = false;
-          }
+              $location.path('/dashboard');
+        //      console.log(data, typeof data,$scope.user);
+          //    Authentication.setData(JSON.stringify(data));
+            //  console.log(Authentication.getData());
+        //  } else {
+          //    $scope.authenticated = false;
+        //  }
           console.log('new stuff', $scope.user, $scope.authenticated);
       };
       
@@ -24,7 +24,15 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
             password: $scope.userLogin.password
         };
         
-        $http({
+        Authentication.signin(send,function(response) {
+            if (response.status !== 400) {
+                setScope(response.data);
+            } else {
+                $scope.error = "Hm, couldn't find that password/email combination. Try again!"
+            }
+        });
+          
+       /* $http({
             url:'/signin',
             method: 'POST',
             data: send,
@@ -35,12 +43,23 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
             $location.path('/');
         }, function(error) {
             $scope.error = "Hmm, couldn't find that password/email combination. Try again!"
-        });
+        }); */
       };
       
       
       $scope.signup = function() {
-          $http({
+          
+         Authentication.signup($scope.user,function(res) {
+             if (res.status !== 400) {
+                 console.log(res);
+                 setScope(res.data);
+             } else {
+                 $scope.error = res.data;
+             }
+         }); 
+          
+          
+         /* $http({
               url: '/signup',
               method: 'POST',
               data: $scope.user,
@@ -48,14 +67,21 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
           }).then(function(response) {
               setScope(response.data);
               console.log('repsonse',response);
-              $location.path('/');
+
           }, function(error) {
               console.log('error',error);
-          });
+          }); */
       };
       
       $scope.signOut = function() {
-          $http({
+          
+          
+          Authentication.signout(function() {
+              $scope.authenticated = false;
+              $location.path('/');
+          });
+          
+         /* $http({
               url:'/signout',
               method:'GET'
           }).then(function(response) {
@@ -65,14 +91,16 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
               $scope.authenticated = false;
               $location.path('/');
               
-          });
+          }); */
       };
       
        $scope.findData = function() {
+           console.log('helloooo');
            var data = Authentication.getData();
            if (data) {
                 $scope.user = JSON.parse(data);
-                $scope.authenticated = true;    
+                $scope.authenticated = true;   
+               $location.path('/dashboard');
            } else {
                $scope.authenticated = false;
            }
