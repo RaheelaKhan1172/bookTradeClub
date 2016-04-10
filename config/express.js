@@ -4,7 +4,8 @@ var config = require('./configuration'),
   session = require('express-session'),
   bodyParser = require('body-parser'),
   passport = require('passport'),
-  flash = require('connect-flash');
+  flash = require('connect-flash'),
+  busboy = require('connect-busboy');
 
 module.exports = function() {
   var app = express();
@@ -16,6 +17,7 @@ module.exports = function() {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
+    
   app.use(bodyParser.json());
 
   app.use(session({
@@ -24,6 +26,7 @@ module.exports = function() {
     secret: config.sessionSecret  
   }));
 
+  app.use(busboy());
   app.set('views', './app/views');
   app.set('view engine', 'ejs');
   
@@ -33,6 +36,7 @@ module.exports = function() {
   
   require ('../app/routes/inder.server.route.js')(app);
   require('../app/routes/user.server.route.js')(app);
+  require('../app/routes/book.server.route.js')(app);
     
   app.use(express.static('./public'));
 

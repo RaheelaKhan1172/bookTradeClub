@@ -26,6 +26,7 @@ exports.user = function(req,res,next) {
                     message: err
                 });
             } else {
+             //   console.log('hi whats up');
                 return res.json(user);
             }
         });
@@ -71,7 +72,8 @@ exports.signup = function(req,res,next) {
                   console.log('hello hey');
                    res.status(200).json({
                       firstName: user.firstName,
-                      email: user.email
+                      email: user.email,
+                       id:user._id
               });
               }
           });
@@ -85,7 +87,8 @@ exports.handleResults = function(req,res,next) {
     //add stuff
     var data = {
         firstName: req.firstName,
-        email: req.email
+        email: req.email,
+        id: req._id
     };
     
     return res.status(200).json(data);

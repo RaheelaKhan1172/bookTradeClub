@@ -11,8 +11,13 @@ var BookSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Trade'
     },
-    title: String,
-    author: String
+    title: {
+        type:String,
+        required:true
+    },
+    author: String,
+    image: String
+    
 });
 
 mongoose.model('Book', BookSchema);

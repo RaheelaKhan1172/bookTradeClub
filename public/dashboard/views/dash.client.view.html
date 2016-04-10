@@ -1,19 +1,48 @@
-<section ng-controller="DashController" ng-init="getData()">
-    <section ng-controller="UserController">
+<section ng-cloak ng-controller="DashController" ng-init="getData()">
+    <section ng-cloak ng-controller="UserController">
         <div ng-init="findData()">
             <h3>Hi {{user.firstName}} </h3>
         </div>
         <button class="btn btn-default" ng-click="signOut()">Signout</button>
     </section>
-    
+    <div ng-cloak>
     <h3> {{user.books.length}} books</h3>
     
+    <button value="books" ng-click="toggleClick($event)">My books</button>
+    <button value="tradeUser" ng-click="toggleClick($event)">My trade requests</button>
+    <button value="tradeOther" ng-click="toggleClick($event)">Trade requests for me</button>
+    <button value="add" ng-click="toggleClick($event)">Add a book</button> 
     
-    <div>
-        <h3> my books</h3>
+    <!-- handle showing of different links --> 
+    
+    <div ng-show="value.books">hi ho</div>
+    <div ng-show="value.tradeUser">mhm</div>
+    <div ng-show="value.tradeOther">hiiier</div>
+    
+    <!-- show form to add a new book -->
+    <div ng-show="value.add">
+        <form name="addBook" enctype="multipart/form-data" ng-submit="submit()" novalidate>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="title" name="title" class="form-control" ng-model="book.title" id="title" placeholder="Title" required>
+                <p ng-show="addBook.title.$invalid && !addBook.title.$pristine" class="help-block">Title is required.</p>
+            </div>
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="author" name="author" class="form-control" ng-model="book.author" id="author" placeholder="Author" required>
+                <p ng-show="addBook.author.$invalid &&!addBook.author.$pristine" class="help-block">Author is required.</p>
+            </div>
+            <div class="form-group">
+                Upload own photo? <input type="checkbox" ng-model="checked"><br/>
+                <div ng-show="checked">
+                    <label for="upload">Upload photo of book</label>
+                    <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" id="upload">
+                </div>
+            </div>
+            <button type="submit" ng-disabled="addBook.$invalid">Add</button>
+        </form>
+    
+    
     </div>
-    
-    <div>trade requests i made</div>
-    <div>trade requests for me</div>
-    <div> add a book</div>
+    </div>
 </section>
