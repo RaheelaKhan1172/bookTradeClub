@@ -3,7 +3,6 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     $scope.user = {};
     $scope.value = {books:false,tradeUser:false,tradeOther:false,add:false};
     $scope.book = {};
-    var fileData = null;
     /**
     *
     * Load data on initial page load @return{Object}
@@ -45,7 +44,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     
     /************************************* SUBMIT FORM **************************************/
     
-    
+    var fileData = null;
     var handleResponse = function(response) {
         BookService.setData(response);
         $location.path('/books/' + response._id);

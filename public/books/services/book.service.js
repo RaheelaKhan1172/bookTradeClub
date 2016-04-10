@@ -8,7 +8,7 @@ angular.module('books').factory('BookService', ['$window','$rootScope', function
     
     return {
         setData: function(value) {
-            $window.sessionStorage && $window.sessionStorage.setItem('book', value);
+            $window.sessionStorage && $window.sessionStorage.setItem(JSON.stringify('book', value));
             return this;
         },
     
