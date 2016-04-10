@@ -18,15 +18,19 @@ var getErrorMessage = function(err) {
 };
 
 exports.user = function(req,res,next) {
-    
+    console.log('hey im hit:(', req.headers);
     if (req.headers.data) {
         User.findOne({email: req.headers.data}, '-password -salt -provider').populate(' books requests').exec(function(err,user) {
             if (err) {
                 return res.status(400).send({
                     message: err
                 });
+                
+            } else if (!user) {
+                return res.json(null);
             } else {
              //   console.log('hi whats up');
+                console.log(user,'the user');
                 return res.json(user);
             }
         });

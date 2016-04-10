@@ -8,7 +8,7 @@ var Book = require('mongoose').model('Book'),
 // function that saves book 
 var saveBook = function(req,res,title,author,img) {
     var book;
-    if( title === null && author === null) {
+    if(!title && !author) {
         book = new Book(req.body);
         //insert image url for book here book.image = 
     } else {
@@ -83,7 +83,7 @@ exports.books = function(req,res,next) {
 
 exports.addBook = function(req,res,next) {
     console.log(req.headers);
-    if (req.headers.mult) {
+    if (req.headers.mult === true) {
         console.log('so which one?')
         var fstream;
         var title,author,imgToSave;
