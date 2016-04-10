@@ -45,6 +45,7 @@ angular.module('users').factory("Authentication",['$window','$rootScope', '$http
                 method: 'GET',
                 headers: {"Content-Type": "application/json;charset=utf-8", "data": user}
             }).then(function(response){
+                Authentication.setData(JSON.stringify(response.data));
                 cb(response);
             }, function(error) {
                 cb(error);

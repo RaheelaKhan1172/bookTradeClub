@@ -6,9 +6,10 @@ module.exports = function(app) {
     .get(book.books)
     .post(book.addBook);
     
-    app.route('/api/books/:id')
-    .get(book.getBook);
     
+    app.route('/api/books/:id')
+    .get(book.getBook)
+    .delete(book.remove);
     
     app.param('id', book.bookById);
     

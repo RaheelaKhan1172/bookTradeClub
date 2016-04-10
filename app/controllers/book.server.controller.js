@@ -1,5 +1,6 @@
 var Book = require('mongoose').model('Book'),
     User = require('mongoose').model('User'),
+    Trade = require('mongoose').model('Trade'),
     busboy = require('connect-busboy'),
     fs = require('fs'),
     path = require('path');
@@ -149,6 +150,33 @@ exports.addBook = function(req,res,next) {
         console.log('so I hapen',req.body,req.headers);
         saveBook(req,res);
     }
+};
+
+exports.remove = function(req,res,next) {
+    var book = req.book;
+    
+    book.remove(function(err) {
+        if (err) {
+            return res.status(400).send({
+                message:err
+            });
+        } 
+       User.remove({books: book._id}, function(err) {
+           if (err) {
+               return res.status(400).send({
+                   message:err
+               });
+           }
+           Trade.remove({for: book._id}, function(err) {
+               if (err) {
+                   return res.status(400).send({
+                       message:err
+                   });
+               }
+               return res.status(200).json(book);
+           });
+       }); 
+    });
 };
 
 //display a single book @return{Object} --book

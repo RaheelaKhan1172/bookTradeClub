@@ -7,10 +7,10 @@ var BookSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'User'
     },
-    tradeRequest: {
+    tradeRequest: [{
         type: Schema.ObjectId,
         ref: 'Trade'
-    },
+    }],
     title: {
         type:String,
         required:true

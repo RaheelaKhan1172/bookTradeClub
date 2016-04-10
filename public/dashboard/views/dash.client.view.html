@@ -1,11 +1,11 @@
 <section ng-cloak ng-controller="DashController" ng-init="getData()">
-    <section ng-cloak ng-controller="UserController">
+    <section ng-controller="UserController">
         <div ng-init="findData()">
             <h3>Hi {{user.firstName}} </h3>
         </div>
         <button class="btn btn-default" ng-click="signOut()">Signout</button>
     </section>
-    <div ng-cloak>
+    
     <h3> {{user.books.length}} books</h3>
     
     <button value="books" ng-click="toggleClick($event)">My books</button>
@@ -15,7 +15,9 @@
     
     <!-- handle showing of different links --> 
     
-    <div ng-show="value.books">hi ho</div>
+    <div ng-show="value.books">
+        <h1>{{user}}</h1>
+    </div>
     <div ng-show="value.tradeUser">mhm</div>
     <div ng-show="value.tradeOther">hiiier</div>
     
@@ -43,6 +45,5 @@
         </form>
     
     
-    </div>
     </div>
 </section>

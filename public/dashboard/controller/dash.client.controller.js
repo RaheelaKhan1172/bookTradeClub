@@ -1,3 +1,5 @@
+//note, not utilizing services since requests will be made from this controller only
+
 angular.module('dashboard').controller('DashController', ['$scope', 'Authentication', '$http', 'BookService','$location',  function($scope,Authentication,$http, BookService,$location) {
     console.log('hi hi hi');
     $scope.user = {};
@@ -19,8 +21,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
             console.log(response);
             if (response.status !== 400 && response.data !== null) {
                 $scope.user = response.data
-                
-                            console.log($scope.user,'user');
+                console.log($scope.user,'user');
             } else {
                 $scope.error = response.data;
             }
@@ -46,7 +47,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     
     var fileData = null;
     var handleResponse = function(response) {
-        BookService.setData(response);
+        BookService.setData(JSON.stringify(response));
         $location.path('/books/' + response._id);
     };
     
@@ -99,4 +100,10 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     };
     
     /*********************** END SUBMIT FORM ***************************/
+    
+    
+    /************************* GET CURRENT USERS BOOKS **********************/
+        
+    
+
 }]);
