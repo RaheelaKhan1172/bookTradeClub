@@ -38,6 +38,7 @@ var saveBook = function(req,res,title,author,img) {
                                 message:err
                             });
                         } else {
+                            console.log('saved',book);
                             return res.json(book);
                         }
                     });
@@ -156,26 +157,36 @@ exports.remove = function(req,res,next) {
     var book = req.book;
     
     book.remove(function(err) {
+        console.log('hi remove me!');
         if (err) {
+            console.log('what th fuck is the error',err);
             return res.status(400).send({
                 message:err
             });
+        } else {
+            User.findOne({_id:book.owner}, function(error,user) {
+                if (error) {
+                    return res.status(400).send({
+                        message:err
+                    });
+                } else {
+
+                    var ind = user.books.indexOf(book.id);
+                    user.books = user.books.splice(ind,1);
+                    user.save(function(err) {
+                        if (err) {
+                            return res.status(400).send({
+                                message:err
+                            });
+                        } else {
+                            console.log('done', user);
+                            return res.status(200).json(book);
+                        }
+                    });
+                }
+            });
         } 
-       User.remove({books: book._id}, function(err) {
-           if (err) {
-               return res.status(400).send({
-                   message:err
-               });
-           }
-           Trade.remove({for: book._id}, function(err) {
-               if (err) {
-                   return res.status(400).send({
-                       message:err
-                   });
-               }
-               return res.status(200).json(book);
-           });
-       }); 
+   
     });
 };
 
@@ -186,7 +197,8 @@ exports.getBook = function(req,res,next) {
 
 // retrieve the correct book from DB based 
 exports.bookById = function(req,res,next,id) {
-    Book.findById(id).populate('owner','firstName, city,state', 'tradeRequest', ['status']).exec(function(err,book) {
+    console.log('hi in book id')
+    Book.findById(id).populate('owner','firstName, city,state').exec(function(err,book) {
             if (err) {
                 return next(err);
             }

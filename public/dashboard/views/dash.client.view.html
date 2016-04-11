@@ -16,7 +16,10 @@
     <!-- handle showing of different links --> 
     
     <div ng-show="value.books">
-        <h1>{{user}}</h1>
+        <div ng-repeat="book in currentUserBooks" ng-init="btnId=book.id">
+            <h3 data-ng-bind="book.title"> </h3>
+            <button type="button" ng-value="btnId" ng-click="remove(btnId)">delete</button> 
+        </div>
     </div>
     <div ng-show="value.tradeUser">mhm</div>
     <div ng-show="value.tradeOther">hiiier</div>

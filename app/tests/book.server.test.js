@@ -12,7 +12,7 @@ describe('Testing save method', function() {
         user = new User({
             firstName: 'First',
             lastName: 'Kast',
-            email: 'firstlast@test.com',
+            email: 'firstlast65@test.com',
             password:'123456789'
         });
         user.save(function(err){

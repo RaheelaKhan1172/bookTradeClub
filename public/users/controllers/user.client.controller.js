@@ -23,9 +23,10 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
             username: $scope.userLogin.username.toUpperCase(),
             password: $scope.userLogin.password
         };
-        
+        console.log('tosend', send);
         Authentication.signin(send,function(response) {
-            if (response.status !== 400) {
+            if (response.status !== 400 && response.status !== 401) {
+                console.log('in here?');
                 setScope(response.data);
             } else {
                 $scope.error = "Hm, couldn't find that password/email combination. Try again!"

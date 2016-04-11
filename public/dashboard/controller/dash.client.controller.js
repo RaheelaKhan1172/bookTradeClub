@@ -12,15 +12,22 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     **/
     $scope.getData = function() {
         console.log('hi, here ho');
-    
+        $scope.currentUserBooks = [];
         var d = Authentication.getData();
 
         d = JSON.parse(d);
-    
+        console.log(d,'data');
         Authentication.getUser(d.email,function(response){
             console.log(response);
             if (response.status !== 400 && response.data !== null) {
                 $scope.user = response.data
+                
+                $scope.user.books.filter(function(a) {
+                    return $scope.currentUserBooks.push({
+                        title: a.title,
+                        id: a._id
+                    });
+                });
                 console.log($scope.user,'user');
             } else {
                 $scope.error = response.data;
@@ -68,6 +75,14 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     *
     **  send either mulipart/form or regular form request to server
     **/
+    var result = function(response) {
+        if (response.status !== 400) {
+            handleResponse(response.data);
+        } else {
+            $scope.error = response.data;
+        }
+    };
+    
     $scope.submit = function() {
         console.log($scope.user,'user');
         if (fileData !== null) {
@@ -75,7 +90,9 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
             fileData.append('title', $scope.book.title);
 
             console.log(fileData, 'fileData');
-            $http.post('/api/books', fileData,{
+            
+            BookService.addMultBook(fileData,$scope.user.email, result);
+        /*    $http.post('/api/books', fileData,{
                 headers: {"Content-Type": undefined , "data": $scope.user.email,"mult":true},
                 transformRequest: angular.identity
             }).then(function(respones) {
@@ -83,9 +100,11 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
                 console.log(response);
             }, function(error) {
                 console.log('error', error);
-            });
+            }); */
         } else {
-            $http({
+            
+            BookService.addBook($scope.book,$scope.user.email,result);
+         /*   $http({
                 url:'/api/books',
                 method:'POST',
                 headers: {"data": $scope.user.email,"mult":false},
@@ -96,14 +115,25 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
             },function(error) {
                 console.log('error in reg response', error);
             });
+        }; */
         };
     };
-    
     /*********************** END SUBMIT FORM ***************************/
     
-    
-    /************************* GET CURRENT USERS BOOKS **********************/
+    /************************ REMOVE BOOK *****************************/
+        $scope.remove = function(id) {
+            console.log('id',id);
+            BookService.delete(id, function(response) {
+                $scope.currentUserBooks.filter(function(a) {
+                    console.log(a,'a');
+                    return a.id !== response.data._id
+                });
+           });
+            console.log('new',$scope.currentUserBooks);
+        };
         
+        
+     /************************ END REMOVE BOOK *****************************/
     
-
+    /********************* TRADE REQUESTS **************************************/
 }]);

@@ -8,9 +8,13 @@ module.exports = function() {
             email: username
         }, function(err,user) {
             console.log('snap', err,user)
+            if (user) {
+                return done(null,user);
+            } else {
             if (err || !user || !user.authenticate(password)) {
                 console.log(err);
                 return done(null,false,err);
+            }
             }
           /*  if (!user) {
                 console.log('hmhm')
@@ -25,7 +29,7 @@ module.exports = function() {
                 });
             } */
             //no errors, user document is found
-            return done(null,user);
+
         });
     }));
 };

@@ -54,7 +54,7 @@ var UserSchema = new Schema({
         type:Schema.ObjectId,
         ref: 'Trade'
     }]
-});
+}, {collection:'userschema'});
 
 
 

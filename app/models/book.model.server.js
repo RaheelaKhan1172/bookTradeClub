@@ -18,6 +18,6 @@ var BookSchema = new Schema({
     author: String,
     image: String
     
-});
+}, {collection:'bookschema'});
 
 mongoose.model('Book', BookSchema);

@@ -17,7 +17,7 @@ var getErrorMessage = function(err) {
     
 };
 
-// @return [Array of {Objects}]
+// @return {Object}
 
 exports.user = function(req,res,next) {
     console.log('hey im hit:(', req.headers);
