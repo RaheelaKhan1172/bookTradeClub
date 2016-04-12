@@ -53,6 +53,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     /************************************* SUBMIT FORM **************************************/
     
     var fileData = null;
+    
     var handleResponse = function(response) {
         BookService.setData(JSON.stringify(response));
         $location.path('/books/' + response._id);
@@ -76,7 +77,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     **  send either mulipart/form or regular form request to server
     **/
     var result = function(response) {
-        if (response.status !== 400) {
+        if (response.status !== 400 && result.data) {
             handleResponse(response.data);
         } else {
             $scope.error = response.data;

@@ -3,7 +3,9 @@ var Book = require('mongoose').model('Book'),
     Trade = require('mongoose').model('Trade'),
     busboy = require('connect-busboy'),
     fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    https = require('https'),
+    config = require('../../config/configuration');
     
 
 // function that saves book 
@@ -77,6 +79,10 @@ exports.books = function(req,res,next) {
         }
     });
 };
+var handleResult = function(res) {
+    console.log('res',res)
+    }
+
 /**
 **
 *add a new book @return {Object} --new book
@@ -148,8 +154,24 @@ exports.addBook = function(req,res,next) {
                 });
             }); */
     } else {
-        console.log('so I hapen',req.body,req.headers);
-        saveBook(req,res);
+        console.log('so I hapen',req.body,req.headers,config.apiKey);
+        //add api for book imag ehere
+        var url = 'https://www.googleapis.com/books/v1/volumes?q='+req.body.title.toLowerCase()+'+inauthor:'+req.body.author.toLowerCase()+'&key='+config.apiKey ;
+        
+        console.log('the url',url);
+        var data = '';
+        https.get(url, (res) => {
+            console.log('statusCode:', res.statusCode);
+            res.on('data', (d) => {
+                data += d;
+            });
+            res.on('end',() => {
+                handleResult(data);
+            });
+        }).on('error', (e) => {
+            console.log('e', e);
+        });
+    //    saveBook(req,res);
     }
 };
 
@@ -159,7 +181,6 @@ exports.remove = function(req,res,next) {
     book.remove(function(err) {
         console.log('hi remove me!');
         if (err) {
-            console.log('what th fuck is the error',err);
             return res.status(400).send({
                 message:err
             });
