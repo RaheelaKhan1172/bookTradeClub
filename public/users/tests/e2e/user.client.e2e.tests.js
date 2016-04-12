@@ -1,4 +1,4 @@
-describe('User E2E Tests:', function() {
+/*describe('User E2E Tests:', function() {
     describe('New User Page', function() {
         it('Should be able to create a new user', function() {
             browser.get('http://localhost:3030/#!/signup');
@@ -42,4 +42,4 @@ describe('User E2E Tests:', function() {
     });
     
     
-});
+}); */

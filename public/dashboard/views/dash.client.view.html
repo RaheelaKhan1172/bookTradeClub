@@ -5,8 +5,8 @@
         </div>
         <button class="btn btn-default" ng-click="signOut()">Signout</button>
     </section>
-    
-    <h3> {{user.books.length}} books</h3>
+    <h3 ng-hide="currentBooks.length">No books yet! Add a book!</h3>
+    <h3 ng-show="currentBooks.length">{{currentBooks.length}} books </h3>
     
     <button value="books" ng-click="toggleClick($event)">My books</button>
     <button value="tradeUser" ng-click="toggleClick($event)">My trade requests</button>

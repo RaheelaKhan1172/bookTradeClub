@@ -170,7 +170,6 @@ exports.remove = function(req,res,next) {
                         message:err
                     });
                 } else {
-
                     var ind = user.books.indexOf(book.id);
                     user.books = user.books.splice(ind,1);
                     user.save(function(err) {
@@ -186,7 +185,6 @@ exports.remove = function(req,res,next) {
                 }
             });
         } 
-   
     });
 };
 

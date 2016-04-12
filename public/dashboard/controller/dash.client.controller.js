@@ -124,12 +124,12 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
         $scope.remove = function(id) {
             console.log('id',id);
             BookService.delete(id, function(response) {
-                $scope.currentUserBooks.filter(function(a) {
-                    console.log(a,'a');
-                    return a.id !== response.data._id
+                console.log(response.data, response.data._id);
+                $scope.currentUserBooks = $scope.currentUserBooks.filter(function(a) {
+                    return a.id !== response.data._id;
                 });
            });
-            console.log('new',$scope.currentUserBooks);
+    
         };
         
         
