@@ -11,8 +11,10 @@ var Book = require('mongoose').model('Book'),
 // function that saves book 
 var saveBook = function(req,res,title,author,img) {
     var book;
-    if(!title && !author) {
+    console.log(img, 'img url');
+    if(title === null && author === null) {
         book = new Book(req.body);
+        book.image = img;
         //insert image url for book here book.image = 
     } else {
         book = new Book({title:title, author:author, image: img});
@@ -79,9 +81,16 @@ exports.books = function(req,res,next) {
         }
     });
 };
-var handleResult = function(res) {
-    console.log('res',res)
-    }
+
+
+var handleResult = function(data,req,res) {
+
+    var parse = JSON.parse(data);
+    console.log(parse.items[0].volumeInfo.imageLinks);
+    var img = parse.items[0].volumeInfo.imageLinks.smallThumbnail;
+    saveBook(req,res,null,null,img);
+    
+}
 
 /**
 **
@@ -118,44 +127,10 @@ exports.addBook = function(req,res,next) {
             console.log('last one', title, author,imgToSave);
             saveBook(req,res,title,author,imgToSave);
         });
-         /*       var book = new Book(req.body);
 
-                User.findOne({email: req.headers.data}, function(err,user) {
-                    console.log('the user', user);
-                    if (err) {
-                        return res.status(400).send({
-                            message:err
-                        });
-                    } else {
-                        book.owner = user._id;
-                        book.available = true;
-                        user.books.push(book._id);
-
-                        user.save(function(err) {
-                            if (err) {
-                                var message = getErrorMessage(err);
-                                return res.status(400).send({
-                            message: message
-                                });
-                            } else {
-                                book.save(function(err) {
-                                    if (err) {
-                                        var message = getErrorMessage(err);
-                                        return res.status(400).send({
-                                            message: message
-                                        });
-                                    } else {
-                                        return res.json(book);
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }); */
     } else {
-        console.log('so I hapen',req.body,req.headers,config.apiKey);
         //add api for book imag ehere
+        var _this = res;
         var url = 'https://www.googleapis.com/books/v1/volumes?q='+req.body.title.toLowerCase()+'+inauthor:'+req.body.author.toLowerCase()+'&key='+config.apiKey ;
         
         console.log('the url',url);
@@ -166,12 +141,11 @@ exports.addBook = function(req,res,next) {
                 data += d;
             });
             res.on('end',() => {
-                handleResult(data);
+                handleResult(data,req,_this);
             });
         }).on('error', (e) => {
             console.log('e', e);
         });
-    //    saveBook(req,res);
     }
 };
 
@@ -179,7 +153,6 @@ exports.remove = function(req,res,next) {
     var book = req.book;
     
     book.remove(function(err) {
-        console.log('hi remove me!');
         if (err) {
             return res.status(400).send({
                 message:err

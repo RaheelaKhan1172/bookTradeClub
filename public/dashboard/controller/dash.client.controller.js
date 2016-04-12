@@ -77,7 +77,9 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     **  send either mulipart/form or regular form request to server
     **/
     var result = function(response) {
-        if (response.status !== 400 && result.data) {
+        console.log('response?', response);
+        if (response.status === 200) {
+            console.log('am i happening?');
             handleResponse(response.data);
         } else {
             $scope.error = response.data;
