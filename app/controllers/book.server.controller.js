@@ -8,14 +8,52 @@ var Book = require('mongoose').model('Book'),
     config = require('../../config/configuration');
     
 
-// function that saves book 
+//retrieve error message 
+var getErrorMessage = function(err) {
+    
+    var message = '';
+    
+    if (err.code) {
+        message = 'Something went wrong! Please try again';
+    } else {
+        for (var errName in err.errors) {
+            if (err.errors[errName].message) {
+                message = err.errors[errName].message;
+            }
+        }
+    }
+    return message;
+};
+
+
+//GET all books 
+exports.books = function(req,res,next) {
+    Book.find({}).populate('owner', 'tradeRequest').exec(function(err,books) {
+        if (err) {
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+            return res.json(books);
+        }
+    });
+};
+
+
+
+
+/**
+**
+*add/create a new book @return {Object} --new book
+**
+**/
+
 var saveBook = function(req,res,title,author,img) {
     var book;
     console.log(img, 'img url');
     if(title === null && author === null) {
         book = new Book(req.body);
-        book.image = img;
-        //insert image url for book here book.image = 
+        book.image = (img === null)? '' : img;
     } else {
         book = new Book({title:title, author:author, image: img});
     }
@@ -51,52 +89,20 @@ var saveBook = function(req,res,title,author,img) {
         }
     });
 }; 
-//retrieve error message 
-var getErrorMessage = function(err) {
-    
-    var message = '';
-    
-    if (err.code) {
-        message = 'Something went wrong! Please try again';
-    } else {
-        for (var errName in err.errors) {
-            if (err.errors[errName].message) {
-                message = err.errors[errName].message;
-            }
-        }
-    }
-    return message;
-};
-
-
-//GET all books 
-exports.books = function(req,res,next) {
-    Book.find({}).populate('owner', 'tradeRequest').exec(function(err,books) {
-        if (err) {
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else {
-            return res.json(books);
-        }
-    });
-};
 
 
 var handleResult = function(data,req,res) {
 
     var parse = JSON.parse(data);
     console.log(parse.items[0].volumeInfo.imageLinks);
-    var img = parse.items[0].volumeInfo.imageLinks.thumbnail;
-    saveBook(req,res,null,null,img);
-    
-}
+    if (parse.totalItems > 0) {
+        var img = parse.items[0].volumeInfo.imageLinks.thumbnail;
+        saveBook(req,res,null,null,img);
+    } else {
+        saveBook(req,res,null,null,null);
+    }
+};
 
-/**
-**
-*add/create a new book @return {Object} --new book
-**
-**/
 
 exports.addBook = function(req,res,next) {
     console.log(req.headers);
@@ -138,16 +144,14 @@ exports.addBook = function(req,res,next) {
         https.get(url, (res) => {
             console.log('statusCode:', res.statusCode);
             res.on('data', (d) => {
-                if (d.totalItems > 0) {
+                if (d) {
                     data += d;
                 } 
             });
             res.on('end',() => {
-                if (data) {
+                console.log('data',data);
                     handleResult(data,req,_this);
-                } else {
-                    _this.send(null);
-                }
+            
             });
         }).on('error', (e) => {
             console.log('e', e);
@@ -155,6 +159,11 @@ exports.addBook = function(req,res,next) {
     }
 };
 
+/**
+ **
+ ** END SAVE BOOK 
+ **
+**/
 
 // delete a book
 exports.remove = function(req,res,next) {

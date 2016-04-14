@@ -3,9 +3,9 @@ describe('Dashboard tests',function() {
         it('Should sign up, navigate to add a book, and add a book', function() {
             browser.get('http://localhost:3030/#!/signup');
             
-            element(by.model('user.firstName')).sendKeys('test8');
-            element(by.model('user.lastName')).sendKeys('test8');
-            element(by.model('user.email')).sendKeys('test8@test.com');
+            element(by.model('user.firstName')).sendKeys('test14');
+            element(by.model('user.lastName')).sendKeys('test14');
+            element(by.model('user.email')).sendKeys('test14@test.com');
             element(by.model('user.password')).sendKeys('123456789');
             
             element(by.css('button[type=submit]')).click();
@@ -33,14 +33,16 @@ describe('Dashboard tests',function() {
         });
         
         it('Should delete a book without error', function() {
-            browser.get('http://localhost:3030/#!/dashboard');
-            
-           element(by.css('button[value=books]')).click();
             
             element(by.css('button[type=button]')).click();
             
             browser.sleep(3000);
-            
-        });
+            browser.switchTo().alert().accept();
+            browser.getCurrentUrl().then(function(url) {
+                expect(url.indexOf('dashboard') !== -1).toBe(true);
+            }).catch(function(error) {
+                expect(error).toBe(null);
+            });
+        }); 
     });
 });

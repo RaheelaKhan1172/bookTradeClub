@@ -1,5 +1,12 @@
 <section ng-controller="BookController" ng-init="getBook()">
     
     <h1>Title: {{book.title}}</h1>
-    <img ng-src={{book.image}}>
+    
+    <div ng-if='book.image'>
+        <img ng-src={{book.image}}>
+    </div> 
+    
+    <div ng-if='user._id === book.owner' ng-init="id=book._id">
+        <button type="button" ng-click='deleteBook(id)'>delete</button>
+    </div>
 </section>

@@ -4,5 +4,6 @@ angular.module('books').config(['$routeProvider', function($routeProvider) {
     })
     .when('/books', {
         templateUrl: 'books/views/all-books.html'
-    });
+    })
+    .otherwise({redirectTo: 'books/views/all-books.html'});
 }]);
