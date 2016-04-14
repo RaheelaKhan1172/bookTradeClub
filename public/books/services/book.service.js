@@ -49,6 +49,17 @@ angular.module('books').factory('BookService', ['$window','$rootScope','$http', 
             }, function(error) {
                 cb(error);
             });
+        },
+        
+        allBooks: function(cb) {
+            $http({
+                url:'/api/books',
+                method: 'GET'
+            }).then(function(response) {
+                cb(response);
+            }, function(error) {
+                cb(error);
+            });    
         }
     };
     

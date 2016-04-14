@@ -69,7 +69,7 @@ var getErrorMessage = function(err) {
 };
 
 
-//get all books 
+//GET all books 
 exports.books = function(req,res,next) {
     Book.find({}).populate('owner', 'tradeRequest').exec(function(err,books) {
         if (err) {
@@ -87,14 +87,14 @@ var handleResult = function(data,req,res) {
 
     var parse = JSON.parse(data);
     console.log(parse.items[0].volumeInfo.imageLinks);
-    var img = parse.items[0].volumeInfo.imageLinks.smallThumbnail;
+    var img = parse.items[0].volumeInfo.imageLinks.thumbnail;
     saveBook(req,res,null,null,img);
     
 }
 
 /**
 **
-*add a new book @return {Object} --new book
+*add/create a new book @return {Object} --new book
 **
 **/
 
@@ -138,10 +138,16 @@ exports.addBook = function(req,res,next) {
         https.get(url, (res) => {
             console.log('statusCode:', res.statusCode);
             res.on('data', (d) => {
-                data += d;
+                if (d.totalItems > 0) {
+                    data += d;
+                } 
             });
             res.on('end',() => {
-                handleResult(data,req,_this);
+                if (data) {
+                    handleResult(data,req,_this);
+                } else {
+                    _this.send(null);
+                }
             });
         }).on('error', (e) => {
             console.log('e', e);
@@ -149,6 +155,8 @@ exports.addBook = function(req,res,next) {
     }
 };
 
+
+// delete a book
 exports.remove = function(req,res,next) {
     var book = req.book;
     
@@ -182,7 +190,14 @@ exports.remove = function(req,res,next) {
     });
 };
 
-//display a single book @return{Object} --book
+/*** update book **/
+
+//code goes here
+
+/*    end update book **/
+
+
+//display/read a single book @return{Object} --book
 exports.getBook = function(req,res,next) {
     res.json(req.book);
 };
