@@ -16,6 +16,17 @@ angular.module('books').factory('BookService', ['$window','$rootScope','$http', 
             return $window.sessionStorage && $window.sessionStorage.getItem('book');
         },
         
+        getBook: function(id,cb) {
+            $http({
+                url: '/api/books/'+id,
+                method: 'GET'
+            }).then(function(response) {
+                cb(response);
+            }, function(error) {
+                cb(error);
+            });
+        },
+        
         addMultBook: function(data,email,cb) {
             $http.post('/api/books', data, {
                 headers: {"Content-Type":undefined, "data":email, "mult":true},
@@ -60,7 +71,9 @@ angular.module('books').factory('BookService', ['$window','$rootScope','$http', 
             }, function(error) {
                 cb(error);
             });    
-        }
+        },
+        
+        trade: function() {}
     };
     
 }]);

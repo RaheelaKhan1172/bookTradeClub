@@ -6,7 +6,15 @@
         <img ng-src={{book.image}}>
     </div> 
     
-    <div ng-if='user._id === book.owner' ng-init="id=book._id">
+    <div ng-if='user._id === book.owner._id' ng-init="id=book._id">
         <button type="button" ng-click='deleteBook(id)'>delete</button>
     </div>
+    
+    <div ng-if="book.available && user._id !== book.owner._id" ng-init="id=book._id">
+        <button type="button" ng-click="trade(id)">Request trade</button>
+    </div>
+    <div ng-hide="book.available">
+        This book is not available for trade requests!
+    </div>
+    
 </section>
