@@ -37,6 +37,9 @@
     "karma-phantomjs2-launcher": "^0.5.0",
     "phantomjs2": "^2.2.0",
     "should": "^8.3.0",
-    "supertest": "^1.2.0"
+    "supertest": "^1.2.0",
+    "request": "^2.71.0",
+    "cheerio": "^0.20.0"
+    
   }
 }

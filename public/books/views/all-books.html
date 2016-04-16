@@ -6,7 +6,7 @@
             <img ng-src={{book.image}}>
         </div>
         
-        <!-- if book is available and does not belond to current user display trade -->
+        <!-- if book is available and does not belong to current user display trade -->
         <div ng-if=" book.owner._id !== user._id && book.available" ng-init="id=book._id">
             <button type="button" ng-click="trade(id)">request for trade</button>
         </div>
