@@ -18,7 +18,7 @@ var UserSchema = new Schema({
     email: {
         type: String,
         required:[true, 'Email cannot be blank'],
-        unique: true,
+
         match: /^[\w!#$%&'*+/=?`{|}~^-]+(?:\.[\w!#$%&'*+/=?`{|}~^-]+)*@(?:[A-Z0-9-]+\.)+[A-Z]{2,6}$/,
         validate: [
             function(email) {
@@ -41,8 +41,7 @@ var UserSchema = new Schema({
         type: String
     },
     provider: {
-        type: String,
-        required: 'Provider is required'
+        type: String
     },
     providerId: String,
     providerData: {},
@@ -57,12 +56,18 @@ var UserSchema = new Schema({
 }, {collection:'userschema'});
 
 
+UserSchema.pre('save', function(next) {
+    if (this.email) {
+        console.log('this', this.email);
+        this.email = this.email.toUpperCase();
+    }
+    next();
+});
 
 UserSchema.pre('save', function(next) {
     if (this.password) {
         this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
         this.password = this.hashPassword(this.password);
-        this.email = this.email.toUpperCase();
         
     }
     next();
