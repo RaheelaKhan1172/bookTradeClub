@@ -8,6 +8,10 @@ var fs = require('fs'),
     bookArr = [],
     index = 0;
 
+function getInd(book) {
+    return book.lastIndexOf('by');
+}
+
 function getBook(cb) {
     https.get('https://www.gutenberg.org/browse/scores/top', (res) => {
         console.log('statuscode:', res.statusCode);
@@ -36,14 +40,13 @@ function getBook(cb) {
 
 function getBookImage(bookArr,cb) {
 
-        var ind = bookArr.lastIndexOf('by');
+        var ind = getInd(bookArr);
         
         var bookData = {
             title: bookArr.substr(0,ind),
             author:bookArr.substr(ind+2)
         };
         
-
          var url = 'https://www.googleapis.com/books/v1/volumes?q='+bookData.title.toLowerCase()+'+inauthor:'+bookData.author.toLowerCase()+'&key='+config.apiKey ;
         
         return cb(url);
@@ -70,10 +73,10 @@ function makeRequest(url,cb) {
 
 function handleIt(data,cb) {
     data = JSON.parse(data);
-    
+    console.log('data',data.items[0].volumeInfo);
     if (data.totalItems > 0) {
         index += 1;
-        return cb(data.items[0].volumeInfo.imageLinks.thumbnail);
+        return cb(data.items[0].volumeInfo.imageLinks.thumbnail,data.items[0].volumeInfo.title,data.items[0].volumeInfo.authors);
     }
   
 }
@@ -94,8 +97,12 @@ function read(cb) {
 };
 
 function incIndex() {
-    console.log('now I happened');
+    console.log('now I happened',index);
     index += 1;
+    
+    if (index === 10) {
+        res.send('done');
+    }
 }
 
 function saveUser(user,book) {
@@ -112,84 +119,58 @@ function saveUser(user,book) {
     });
 }
 
-/*function handleIt(bookData,data,user) {
-    data = JSON.parse(data);
-    
-    if (data.totalItems > 0) {
-        var image = data.items[0].volumeInfo.imageLinks.thumbnail;
-        var book = new Book(bookData);
-        book.image = image;
-        
-        book.save(function(err) {
-            console.log(book,'in here');
-            if (err) {
-                console.log(err);
-            } else {
-                saveUser(user,book);
-            }
-        });
-    }
-}*/
-
-/*function getBookImage(url, bookData,user) {
-    var data = '';
-    https.get(url, (res) => {
-                            console.log('statuscode', res.statusCode);
-                            
-                            res.on('data', (d) => {
-                                data += d;
-                            });
-                            
-                            
-                            res.on('end' , () => {
-                               handleIt(bookData,data,user);
-                             });
-                        }).on('error', (e) => {
-                            console.error('error in book request',e);
-                        }); // end inner http request
-}*/
-
-function saveBook(user,book,i) {
+function saveBook(user,bookImageArr) {
     console.log('now its my turn');
-     /* fix book data to be saved **/
-     var ind = book[i].lastIndexOf('by');
     
-     var bookData = {
-         title: book[i].substr(0,ind),
-         author: book[i].substr(ind+2),
-         owner: user._id,
-         available:true
-     };
-     
-  //   var title = book[i].substr(0,ind);
-//     var author = book[i].substr(ind+2);
-     var url = 'https://www.googleapis.com/books/v1/volumes?q='+bookData.title.toLowerCase()+'+inauthor:'+bookData.author.toLowerCase()+'&key='+config.apiKey ;
-
-     /* * * * * *  http request for book image * * * * * * * */
-      getBookImage(url, bookData,user);
+ 
+    var book = new Book({
+        title: bookImageArr.title,
+        author: bookImageArr.author,
+        available:true,
+        owner: user._id,
+        image: bookImageArr.image
+    });
+    
+    book.save(function(err) {
+        if (err) {
+            console.log('error',err);
+        } else {
+            saveUser(user,book);
+        }
+    });
     
     
-}
+};
 
 
-function makeUser(name,book,i) {
+function makeUser(name,bookImageArr) {
     console.log('now me');
+    
     var userData = {
-        firstName: name[i],
-        lastName: name[i],
-        email: name[i]+i+'@EXXAMPLE.COM',
+        firstName: name,
+        lastName: name,
+        email: name+'@EXXAMPLE.COM',
         password:'123456789',
         provider:'local'
     }
     
    var user = new User(userData);
     
-    saveBook(user,book,i);
+    saveBook(user,bookImageArr);
 }
+
+function userAndBook(name,bookImageArr) {
+    index = 0;
+
+    for (var i = 0; i < name.length;i++) {
+        console.log(name[i],bookImageArr[i]);
+        makeUser(name[i],bookImageArr[i]);
+    }
+}
+
 
 //get a name for user and book/
 exports.getData = function() {
-    var k = 0;
     var bookImageArr = [];
         read(function(name) {
             name = name.slice(0,10);
@@ -199,11 +180,16 @@ exports.getData = function() {
                     for (var i = 0; i < 10; i++) {
                         getBookImage(book[i], function(url) {
                             makeRequest(url,function(data) {
-                                handleIt(data,function(bookImage) {
-                                    bookImageArr.push(bookImage);
+                                handleIt(data,function(bookImage,bookTitle,bookAuthor) {
+                                    bookImageArr.push({
+                                        title: bookTitle,
+                                        author: bookAuthor,
+                                        image:bookImage
+                                    });
                                     console.log(index,'index');
                                     if (index === 10) {
-                                        console.log(bookImageArr);
+                                      
+                                      userAndBook(name,bookImageArr);
                                     }
                                 });
                             });
