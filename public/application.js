@@ -2,7 +2,7 @@
 
 var mainApplicationModuleName = 'bookClub';
 
-var mainApplicationModule = angular.module(mainApplicationModuleName,['ngRoute','ui.bootstrap','users','dashboard','books']);
+var mainApplicationModule = angular.module(mainApplicationModuleName,['ngRoute','ui.bootstrap','users','dashboard','books','request']);
 
 mainApplicationModule.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('!');

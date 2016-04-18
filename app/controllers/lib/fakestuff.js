@@ -8,6 +8,8 @@ var fs = require('fs'),
     bookArr = [],
     index = 0;
 
+
+
 function getInd(book) {
     return book.lastIndexOf('by');
 }
@@ -101,7 +103,7 @@ function incIndex() {
     index += 1;
     
     if (index === 10) {
-        res.send('done');
+        console.log('done');
     }
 }
 
@@ -195,70 +197,12 @@ exports.getData = function() {
                             });
                         })
                     };
-                 
-             //   for (var i = 0; i < name.length; i++ ) {
-                    
-               /*     makeUser(name,book,i);
-                    var userData = {
-                        firstName: name[i],
-                        lastName: name[i],
-                        email: name[i]+'@EXAMPLE.COM',
-                        password: '123456789',
-                        provider:'local'
-                    } */
-                    
-            /*        console.log('index and i ', i, index);
-                    if (index === i) {
-                        console.log('so I happen');
-                        makeUser(name,book,i);
-                    }*/
-                /*    console.log(user,'the User');
-                    user.save(function(err) {
-                        console.log('error',err,'the user', user);
-                        if (err) throw err;
-                        console.log('do I happen?????');
-                        var ind = book[i].lastIndexOf('by');
-                        var title = book[i].substr(0,ind);
-                        var author = book[i].substr(ind+2);
-                        console.log('hi the error is here',err);
-                        var url = 'https://www.googleapis.com/books/v1/volumes?q='+title.toLowerCase()+'+inauthor:'+author.toLowerCase()+'&key='+config.apiKey ;
-                        
-                        var data = '';
-                        https.get(url, (res) => {
-                            console.log('statuscode', res.statusCode);
-                            
-                            res.on('data', (d) => {
-                                data += d;
-                            });
-                            
-                            
-                            res.on('end' , () => {
-                                console.log('data',data);
-                                var bookData = {
-                                    available:true,
-                                    owner: user._id,
-                                    title: title,
-                                    author: author
-                                };
-                               
-                                handleIt(bookData,data,k);
-                                
-                            });
-                        }).on('error', () => {
-                            console.error(e);
-                        }); // end inner http request
-                      
-                        
-                    }); //end user save */
-                    
-                    
-             //   } //end for loop
            
             }); //end get book function call
         }); //end get names functionc call
     
     
-} //close function
+}; //close function
 
 
 

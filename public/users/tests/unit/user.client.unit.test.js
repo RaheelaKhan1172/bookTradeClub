@@ -17,7 +17,6 @@ describe('Testing user Module', function() {
     beforeEach(module('users'));
     
     beforeEach(inject(function($rootScope,$controller) {
-        console.log('hihi',$rootScope);
        scope = $rootScope;
         userController = $controller('UserController', {
             $scope: scope
