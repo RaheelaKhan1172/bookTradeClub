@@ -13,4 +13,10 @@ module.exports = function(app) {
     app.get('/api/user', users.user);
 
     app.get('/signout', users.signout);
+    
+    app.route('/api/user/:userId')
+        .put(users.update);
+
+    app.param('userId', users.getID);
+    
 }

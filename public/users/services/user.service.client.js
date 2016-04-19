@@ -4,6 +4,7 @@ angular.module('users').factory("Authentication",['$window','$rootScope', '$http
                 $rootScope.$apply();
             }
     });
+    //auth object to enable usage of methods inside service
     var Authentication =  {
         
         /*
@@ -69,7 +70,7 @@ angular.module('users').factory("Authentication",['$window','$rootScope', '$http
         
         /**
         *
-        * @return { Object } || @return {Boolean}
+        * @return { Object } 
         *
         **/
         
@@ -121,8 +122,26 @@ angular.module('users').factory("Authentication",['$window','$rootScope', '$http
             }, function(error) {
                  cb(error);
             });
+        },
+        
+        /**
+        **
+        **@update
+        **
+        **/
+        updateUser: function(id,data,cb) {
+            console.log('id', id);
+            $http({
+                url: '/api/user/'+id,
+                method: 'PUT',
+                data:data
+            }).then(function(res) {
+                cb(res);
+            },function(error) {
+                cb(error);
+            });
         }
-
-    };
+    }
+    
     return Authentication;
 }]);

@@ -22,7 +22,7 @@ var getErrorMessage = function(err) {
 exports.user = function(req,res,next) {
     console.log('hey im hit:(', req.headers);
     if (req.headers.data) {
-        User.findOne({email: req.headers.data}, '-password -salt -provider').populate(' books requests').exec(function(err,user) {
+        User.findOne({email: req.headers.data}, '-password -salt -provider').populate('books requestMade requestBy').exec(function(err,user) {
             if (err) {
                 return res.status(400).send({
                     message: err
@@ -104,4 +104,23 @@ exports.handleResults = function(req,res,next) {
 exports.signout = function(req,res) {
     req.logout();
     res.redirect('/');
+};
+
+exports.update = function(req,res,next) {
+    var id = req.id;
+    User.findByIdAndUpdate(id, {$set: {city:req.body.city , state:req.body.state}},{new:true}, function(err,user) {
+        if (err) {
+            return res.status(400).send({
+                message: err
+            });
+        } else {
+            res.json(user);
+        };
+    });
+};
+
+exports.getID = function(req,res,next,id) {
+    console.log('in id', id);
+    req.id = id;
+    next();
 };

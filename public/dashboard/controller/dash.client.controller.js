@@ -140,5 +140,6 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
         
      /************************ END REMOVE BOOK *****************************/
     
+    
     /********************* TRADE REQUESTS **************************************/
 }]);

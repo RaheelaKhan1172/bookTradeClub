@@ -3,6 +3,7 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
       
       $scope.user = {}; //for view
       $scope.userLogin = {};
+      $scope.updatedValues = {city:'', state:''};
       
       var setScope = function(data) {
       //    if (data !== null) {
@@ -106,5 +107,23 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
                $scope.authenticated = false;
            }
       };
+          
+      
+   
+      
+    $scope.update = function() {
+        console.log($scope.updatedValues);
+        if (!$scope.updatedValues.city) {
+            console.log($scope.updatedValues);
+            $scope.updatedValues.city = $scope.user.city
+        } 
+        if (!$scope.updatedValues.state) {
+            $scope.updatedValue.state = $scope.user.state
+        }
+        
+        Authentication.updateUser($scope.user._id,$scope.updatedValues,function(res) {
+            console.log(res);
+        });
+    };
  
   }]);

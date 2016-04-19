@@ -18,6 +18,10 @@ var TradeSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    acceptedFor: {
+        type: Schema.ObjectId,
+        ref: 'User'
     }
 });
 

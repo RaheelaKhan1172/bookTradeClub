@@ -11,7 +11,7 @@ describe('Testing save method', function() {
     it ('Should save a book with user id and without an image', function(done) {
         user = new User({
             firstName: 'First',
-            lastName: 'Kast',
+            lastName: 'Last',
             email: 'firstlast65@test.com',
             password:'123456789'
         });

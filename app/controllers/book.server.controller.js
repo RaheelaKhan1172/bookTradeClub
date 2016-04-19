@@ -183,6 +183,20 @@ exports.remove = function(req,res,next) {
                 } else {
                     var ind = user.books.indexOf(book.id);
                     user.books = user.books.splice(ind,1);
+                    
+                    Trade.find({"for": book._id}, function(err,trade) {
+                        if (err) {
+                            return res.status(400).send({
+                                message:err
+                            });
+                        }
+                    trade.status = 'This book has been removed by owner.';
+                    trade.save(function(err) {
+                        if(err) {
+                            return res.status(400).send({
+                                message:err
+                            });
+                        }
                     user.save(function(err) {
                         if (err) {
                             return res.status(400).send({
@@ -192,6 +206,8 @@ exports.remove = function(req,res,next) {
                             console.log('done', user);
                             return res.status(200).json(book);
                         }
+                    });
+                })
                     });
                 }
             });

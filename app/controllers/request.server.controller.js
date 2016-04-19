@@ -136,9 +136,39 @@ exports.post = function(req,res,next) {
 **/
 
 exports.update = function(req,res,next) {
+    var trade = req.trade;
     
-}
-
+    trade.status = 'Accepted';
+    trade.acceptedFor = req.headers.selected;
+    Book.findById(trade.book._id).exec(function(err,book) {
+        if (err) {
+            return res.status(400).send({
+                message:err
+            })
+        } else {
+            book.available = false;
+            book.save(function(err) {
+                if (err) {
+                    return res.status(400).send({
+                        message:err
+                    });
+                } else {
+                    trade.save(function(err) {
+                        if (err) {
+                            if (err) {
+                                return res.status(400).send({
+                                    message:err
+                                }); 
+                            } else {
+                                return res.json(trade);
+                            }
+                        }
+                    });
+                };
+            });
+        };
+    });
+};
 
 /**
 **
@@ -146,7 +176,17 @@ exports.update = function(req,res,next) {
 **
 **/
 
-exports.delete = function(req,res) {
-    
-}
 
+
+exports.getRequestID = function(req,res,next,id) {
+    Trade.findById(id).populate('requestedBy for bookOwner').exec(function(err,trade) {
+        if (err) {
+            return next(err);
+        } 
+        if (!trade.length) {
+            return next(new Error('Could not complete the task'));
+        }
+        req.trade = trade;
+        next();
+    });
+};
