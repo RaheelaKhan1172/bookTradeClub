@@ -49,9 +49,13 @@ var UserSchema = new Schema({
         type: Schema.ObjectId,
         ref: 'Book'
     }],
-    requests: [{
+    requestMade: [{
         type:Schema.ObjectId,
         ref: 'Trade'
+    }],
+    requestBy: [{
+        type: Schema.ObjectId,
+        ref:'Trade'
     }]
 }, {collection:'userschema'});
 

@@ -1,4 +1,4 @@
-angular.module('books').controller('BookController',['BookService', '$scope','Authentication', '$window','$location', function(BookService,$scope,Authentication, $window,$location) {
+angular.module('books').controller('BookController',['BookService', '$scope','Authentication', '$window','$location', 'RequestService', function(BookService,$scope,Authentication, $window,$location,RequestService) {
     
     $scope.user = JSON.parse(Authentication.getData());
     console.log($scope.user,'user');
@@ -49,8 +49,10 @@ angular.module('books').controller('BookController',['BookService', '$scope','Au
     **/
     
     $scope.trade = function(id) {
-        console.log('id',id);
-        
-    }
+        var toSend = {for: id, requestedBy:$scope.user._id}
+        RequestService.post(toSend,function(response) {
+            console.log(response);
+        });
+    };
 
 }]);

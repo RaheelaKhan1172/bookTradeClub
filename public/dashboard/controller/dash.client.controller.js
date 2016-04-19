@@ -28,6 +28,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
                         id: a._id
                     });
                 });
+        
                 console.log($scope.user,'user');
             } else {
                 $scope.error = response.data;
