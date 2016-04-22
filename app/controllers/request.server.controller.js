@@ -14,7 +14,7 @@ var Trade = require('mongoose').model('Trade'),
 **/
 
 exports.get = function(req,res,next) {
-    res.json(req.trade);
+    
 };
 
 /**
@@ -23,10 +23,87 @@ exports.get = function(req,res,next) {
 **
 **/
 
+// too many callbacks
 exports.post = function(req,res,next) {
-  
-    console.log(req.body);
-   Trade.find({for:req.body.for}).populate('owner', 'requestedBy').exec(function(err,trade) {
+  var tradeObj,bookObj,userObj,userObj2;
+    var message = '';
+    var p = new Promise(function(resolve,reject) {
+    Trade.find({for:req.body.for}).populate('owner', 'requestedBy').exec()
+    //start Promise chain
+    .then(function(trade) {
+        console.log('hit ?');
+        for (var i = 0; i< trade.length; i++) {
+            console.log('hi hi hi');
+            if (trade[i].requestedBy.indexOf(req.body.requestedBy) !== -1 && trade[i].for == req.body.for) {
+                console.log('does it happen?');
+                
+               return reject('You have already requested a trade for this book.');
+
+            }
+        };
+        
+        if (!trade.length) {
+            console.log('in Here');
+            tradeObj = new Trade(req.body);
+        }
+        
+        return p.resolve(Book.findById(req.body.for).exec())
+    })
+    });
+    //Book schema
+    p.then(function(book) {
+        console.log('and me?');
+        if (!book.available) {
+             new Error('This book is currently unavailable.');
+
+        }
+        
+        bookObj = book;
+        return User.findById(req.body.requestedBy).exec()
+    })
+    //User Schema
+    p.then(function(user) {
+        console.log('does it exist?',trade);
+        
+        if (tradeObj.status) {
+             message = 'You and ' + tradeObj.requestedBy.length + 'others have requested a trade for this book.';
+        } else {
+            message = 'You are the first person to request this book!';
+          tradeObj.status = "Pending";
+        }
+        
+        tradeObj.bookOwner = bookObj.owner;
+        bookObj.tradeRequest.push(tradeObj._id);
+        userObj.requestMade.push(tradeObj._id);
+        
+        return User.findById(bookObj.owner).exec()
+        
+    })
+    //Owner of book
+    p.then(function(user) {
+        user.requestBy.push(tradeObj._id);
+        
+        return user.save();
+    })
+    p.then(function() {
+        return userObj.save();
+    })
+    p.then(function() {
+        return bookObj.save();
+    })
+    p.then(function() {
+        return tradeObj.save();
+    })
+    p.then(function(result) {
+        console.log('and how about this one?');
+        return res.json({message:message});
+    })
+    p.catch(function(error) {
+        console.log('in catch', error);
+        return res.status(200).send({message:error});
+    });
+    };
+ /*  Trade.find({for:req.body.for}).populate('owner', 'requestedBy').exec(function(err,trade) {
        if (err) {
            return res.status(400).send({
                message:err
@@ -40,7 +117,7 @@ exports.post = function(req,res,next) {
                };
        }
        
-       console.log('it exits');
+       console.log('it exists');
        // no trade found,
        if (!trade.length) {
            trade = new Trade(req.body);
@@ -62,7 +139,7 @@ exports.post = function(req,res,next) {
                         message:err
                     });
                 } else {
-                    
+                    trade.status = 'Pending';
                     trade.bookOwner = book.owner;
                     book.tradeRequest.push(trade._id);
                     user.requestMade.push(trade._id);
@@ -123,8 +200,8 @@ exports.post = function(req,res,next) {
         }
     });
   }
-});
-};
+}); */
+
            
 
             

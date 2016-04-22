@@ -15,7 +15,7 @@ angular.module('request').factory('RequestService', [ '$http', function($http) {
         
         update: function(id,data,cb) {
             $http({
-                url: 'api/trade/'+id,
+                url: '/api/trade/'+id,
                 method: 'PUT',
                 headers: {selected: data}
             }).then(function(res) {
@@ -23,7 +23,19 @@ angular.module('request').factory('RequestService', [ '$http', function($http) {
             }, function(err) {
                 cb(err);
             });
-        }
+        },
+        
+        get: function(id,cb) {
+            $http({
+                url: '/api/trade',
+                method: 'GET',
+                headers: {id:id}
+            }).then(function(res) {
+                cb(res);
+            }, function(err) {
+                cb(err);
+            });
+        } 
     }
     
 }]);

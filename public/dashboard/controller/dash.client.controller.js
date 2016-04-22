@@ -5,13 +5,14 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     $scope.user = {};
     $scope.value = {books:false,tradeUser:false,tradeOther:false,add:false};
     $scope.book = {};
+    $scope.tradeRequestsForMe = {};
+    $scope.tradeRequestsIMade = {};
     /**
     *
     * Load data on initial page load @return{Object}
     *
     **/
     $scope.getData = function() {
-        console.log('hi, here ho');
         $scope.currentUserBooks = [];
         var d = Authentication.getData();
 
@@ -28,7 +29,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
                         id: a._id
                     });
                 });
-        
+                
                 console.log($scope.user,'user');
             } else {
                 $scope.error = response.data;
@@ -142,4 +143,6 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     
     
     /********************* TRADE REQUESTS **************************************/
+    
+    
 }]);
