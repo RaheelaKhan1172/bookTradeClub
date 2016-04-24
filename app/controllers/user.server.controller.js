@@ -1,4 +1,6 @@
 var User = require('mongoose').model('User'),
+    Trade = require('mongoose').model('Trade'),
+    tradeC = require('../controllers/request.server.controller'),
     passport = require('passport');
 
 var getErrorMessage = function(err) {
@@ -22,7 +24,7 @@ var getErrorMessage = function(err) {
 exports.user = function(req,res,next) {
     console.log('hey im hit:(', req.headers);
     if (req.headers.data) {
-        User.findOne({email: req.headers.data}, '-password -salt -provider').populate('books requestMade requestBy').exec(function(err,user) {
+        User.findOne({email: req.headers.data}, '-password -salt -provider').populate('books requestMade').exec(function(err,user) {
             if (err) {
                 return res.status(400).send({
                     message: err
@@ -31,9 +33,17 @@ exports.user = function(req,res,next) {
             } else if (!user) {
                 return res.json(null);
             } else {
+                //get requests for user;
+                tradeC.getRequestsForUser(user._id, function(response1) {
+                    tradeC.getUsersRequest(user._id, function(response) {
+                        user.requestBy = response1;
+                        user.requestMade = response;
+                        return res.json(user);
+                    });
+                });
              //   console.log('hi whats up');
-                console.log(user,'the user');
-                return res.json(user);
+              //  console.log(user,'the user');
+        //        return res.json(user);
             }
         });
         

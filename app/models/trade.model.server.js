@@ -3,10 +3,10 @@ var mongoose = require('mongoose'),
 
 var TradeSchema = new Schema({
    status: String,
-   requestedBy: [{
+   requestedBy: {
        type: Schema.ObjectId,
        ref: 'User'
-   }],
+   },
     for: {
         type: Schema.ObjectId,
         ref: 'Book'

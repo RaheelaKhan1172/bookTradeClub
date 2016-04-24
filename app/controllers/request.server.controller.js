@@ -13,87 +13,89 @@ var Trade = require('mongoose').model('Trade'),
 **
 **/
 
-exports.get = function(req,res,next) {
-    
+exports.getRequestsForUser = function(user,cb) {
+    //get requests for user first
+    Trade.find({bookOwner: user}).populate('for').populate('requestedBy','-password -salt').exec(function(err,doc) {
+        console.log('hi in here', doc,user);
+        return cb(doc);
+    });
 };
 
+exports.getUsersRequest = function(user,cb) {
+  Trade.find({requestedBy:user}).populate('for').populate('bookOwner', '-password -salt').exec(function(err,doc) {
+      console.log('hey in doc', doc);
+      return cb(doc);
+  });  
+};
 /**
 **
 ** @return {Object}
 **
 **/
 
-// too many callbacks
+
 exports.post = function(req,res,next) {
   var tradeObj,bookObj,userObj,userObj2;
     var message = '';
+    console.log(req.body);
     var p = new Promise(function(resolve,reject) {
     Trade.find({for:req.body.for}).populate('owner', 'requestedBy').exec()
     //start Promise chain
     .then(function(trade) {
         console.log('hit ?');
         for (var i = 0; i< trade.length; i++) {
-            console.log('hi hi hi');
-            if (trade[i].requestedBy.indexOf(req.body.requestedBy) !== -1 && trade[i].for == req.body.for) {
+            console.log('hi hi hi',trade);
+            //fix this
+            if (trade[i].requestedBy = req.body.requestedBy && trade[i].for == req.body.for) {
                 console.log('does it happen?');
                 
                return reject('You have already requested a trade for this book.');
 
             }
         };
-        
+        console.log('what is happending',trade);
         if (!trade.length) {
             console.log('in Here');
             tradeObj = new Trade(req.body);
         }
         
-        return p.resolve(Book.findById(req.body.for).exec())
+        return Book.findById(req.body.for).exec()
     })
-    });
     //Book schema
-    p.then(function(book) {
+    .then(function(book) {
         console.log('and me?');
         if (!book.available) {
              new Error('This book is currently unavailable.');
 
         }
-        
+        console.log('I happened');
         bookObj = book;
         return User.findById(req.body.requestedBy).exec()
     })
     //User Schema
-    p.then(function(user) {
-        console.log('does it exist?',trade);
-        
+    .then(function(user) {
         if (tradeObj.status) {
              message = 'You and ' + tradeObj.requestedBy.length + 'others have requested a trade for this book.';
         } else {
             message = 'You are the first person to request this book!';
           tradeObj.status = "Pending";
         }
-        
         tradeObj.bookOwner = bookObj.owner;
         bookObj.tradeRequest.push(tradeObj._id);
-        userObj.requestMade.push(tradeObj._id);
-        
-        return User.findById(bookObj.owner).exec()
+        user.requestMade.push(tradeObj._id);
+        console.log('and now?');
+        return user.save()
         
     })
-    //Owner of book
-    p.then(function(user) {
-        user.requestBy.push(tradeObj._id);
-        
-        return user.save();
-    })
-    p.then(function() {
-        return userObj.save();
-    })
-    p.then(function() {
+    .then(function() {
+        console.log('happening?')
         return bookObj.save();
     })
-    p.then(function() {
-        return tradeObj.save();
+    .then(function() {
+        console.log('hm huh huh??')
+        return resolve(tradeObj.save());
     })
+    });
     p.then(function(result) {
         console.log('and how about this one?');
         return res.json({message:message});
@@ -102,109 +104,9 @@ exports.post = function(req,res,next) {
         console.log('in catch', error);
         return res.status(200).send({message:error});
     });
-    };
- /*  Trade.find({for:req.body.for}).populate('owner', 'requestedBy').exec(function(err,trade) {
-       if (err) {
-           return res.status(400).send({
-               message:err
-           });
-       } 
-       console.log('the trade',trade);
-       for (var i = 0; i < trade.length; i++) {
-           console.log(trade[i].requestedBy, trade[i].for,req.body.requestedBy,req.body.for);
-               if (trade[i].requestedBy.indexOf(req.body.requestedBy) !== -1 && trade[i].for == req.body.for) {
-                   return res.json({mes: 'You have already requested a trade for this book.'});
-               };
-       }
-       
-       console.log('it exists');
-       // no trade found,
-       if (!trade.length) {
-           trade = new Trade(req.body);
-           
-           var message = '';
-           Book.findById(req.body.for).exec(function(err,book) {
-        if (err) {
-            return res.status(400).send({
-                message:err
-            });
-        } else {
-            if (!book.available) {
-                return res.json({message:'This book is currently unavailable for trading'});
-            };
-            
-            User.findById(req.body.requestedBy).exec(function(err, user) {
-                if (err) {
-                    return res.status(400).send({
-                        message:err
-                    });
-                } else {
-                    trade.status = 'Pending';
-                    trade.bookOwner = book.owner;
-                    book.tradeRequest.push(trade._id);
-                    user.requestMade.push(trade._id);
-                    
-                    if (trade.status) {
-                        message = 'You and ' + trade.requestedBy.length + " other people have requested a trade for this book.";
-                    } else {
-                        message = 'You are the first person to request this book!';
-                    }
-                    
-                    User.findById(book.owner).exec(function(err,user1) {
-                        if (err) {
-                            return res.status(400).send({
-                                message: err
-                            });
-                        } else {
-                            user1.requestBy.push(trade._id);
-                        }
-                        
-                        user1.save(function(err) {
-                            console.log('user1',user1)
-                            if (err) {
-                                return res.status(400).send({
-                                    message:err
-                                });
-                            } else {
-                                console.log(user,'user');
-                                user.save(function(err) {
-                                    if (err) {
-                                        return res.status(400).send({
-                                            message:err
-                                        });
-                                    } else {
-                                        book.save(function(err) {
-                                            if (err) {
-                                                return res.status(400).send({
-                                                    message:err
-                                                });
-                                            } else {
-                                                trade.save(function(err) {
-                                                    if (err) {
-                                                        return res.status(400).send({
-                                                            message:err
-                                                        });
-                                                    } else {
-                                                        return res.json({mes:message});
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    };
-                                });
-                            };
-                        });
-                    });
-                };
-            });
-        }
-    });
-  }
-}); */
+};
 
-           
-
-            
+ 
 
 /**
 **
@@ -256,14 +158,14 @@ exports.update = function(req,res,next) {
 
 
 exports.getRequestID = function(req,res,next,id) {
-    Trade.findById(id).populate('requestedBy for bookOwner').exec(function(err,trade) {
+    console.log('in request',id);
+    Trade.findById(id).populate(' for bookOwner').exec(function(err,trade) {
         if (err) {
             return next(err);
         } 
-        if (!trade.length) {
-            return next(new Error('Could not complete the task'));
-        }
+        
         req.trade = trade;
+        console.log(req.trade);
         next();
     });
 };

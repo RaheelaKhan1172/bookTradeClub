@@ -27,9 +27,8 @@ angular.module('request').factory('RequestService', [ '$http', function($http) {
         
         get: function(id,cb) {
             $http({
-                url: '/api/trade',
-                method: 'GET',
-                headers: {id:id}
+                url: '/api/trade/' + id,
+                method: 'GET'
             }).then(function(res) {
                 cb(res);
             }, function(err) {

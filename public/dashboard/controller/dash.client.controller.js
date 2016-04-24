@@ -1,12 +1,10 @@
 //note, not utilizing services since requests will be made from this controller only
 
-angular.module('dashboard').controller('DashController', ['$scope', 'Authentication', '$http', 'BookService','$location',  function($scope,Authentication,$http, BookService,$location) {
+angular.module('dashboard').controller('DashController', ['$scope', 'Authentication', '$http', 'BookService','$location','RequestService',  function($scope,Authentication,$http, BookService,$location,RequestService) {
     console.log('hi hi hi');
     $scope.user = {};
     $scope.value = {books:false,tradeUser:false,tradeOther:false,add:false};
     $scope.book = {};
-    $scope.tradeRequestsForMe = {};
-    $scope.tradeRequestsIMade = {};
     /**
     *
     * Load data on initial page load @return{Object}
@@ -22,15 +20,14 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
             console.log(response);
             if (response.status !== 400 && response.data !== null) {
                 $scope.user = response.data
-                
+               
                 $scope.user.books.filter(function(a) {
                     return $scope.currentUserBooks.push({
                         title: a.title,
                         id: a._id
                     });
                 });
-                
-                console.log($scope.user,'user');
+                    console.log($scope.user,'user');
             } else {
                 $scope.error = response.data;
             }
