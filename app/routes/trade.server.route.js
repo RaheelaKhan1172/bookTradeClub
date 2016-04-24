@@ -7,7 +7,13 @@ module.exports = function(app) {
         .post(trade.post);
     
     app.route('/api/trade/:tradeId')
-        .put(trade.update)
+        .delete(trade.delete);
+    
+    app.route('/api/trade/accept/:tradeId')
+        .put(trade.update);
+    
+    app.route('/api/trade/deny/:tradeId')
+        .put(trade.updateDeny);
     
     app.param('tradeId', trade.getRequestID);
     

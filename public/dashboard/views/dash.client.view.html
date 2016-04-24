@@ -39,21 +39,24 @@
     
     <div ng-show="value.tradeUser">
               <div ng-show="user.requestMade.length">
-                <div ng-repeat="trade in user.requestMade">
+                <div ng-repeat="trade in user.requestMade" ng-init="btnId=trade._id">
                     <h1>{{trade.status}}</h1>
                     <h2> {{trade.for.title}}, by {{trade.for.author}}</h2>
+                    <button type="button" ng-value="btnId" ng-click="remove(btnId)">cancel request</button>
                 </div>
         </div>
-        <div ng-hide="tradeRequestsIMade.length">
+        <div ng-hide="user.requestMade.length">
             You have not requested any books.
         </div>
     </div>
     
     <div ng-show="value.tradeOther">
         <div ng-show="user.requestBy.length">
-            <div ng-repeat="trade in user.requestBy">
-                <h1> {{trade.for.title}}, {{trade.requestedBy.firstName}}</h1>
-                <h3> by: {{trade.requestedBy.firstName}}</h3>
+            <div ng-repeat="trade in user.requestBy" ng-init="btnId = trade._id">
+                <h1> {{trade.for.title}} </h1>
+                <h3> by: {{trade.requestedBy.firstName}} {{trade.status}}</h3>
+                <button type="button" ng-value="btnId" ng-click="accept(btnId)">Accept trade?</button>
+                <button type="button" ng-value="btnId" ng-click="deny(btnId)">Deny?</button>
             </div>
         </div>
         

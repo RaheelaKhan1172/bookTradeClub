@@ -184,7 +184,7 @@ exports.remove = function(req,res,next) {
                     var ind = user.books.indexOf(book.id);
                     user.books = user.books.splice(ind,1);
                     
-                    Trade.find({"for": book._id}, function(err,trade) {
+                    Trade.find({for: book._id}, function(err,trade) {
                         if (err) {
                             return res.status(400).send({
                                 message:err

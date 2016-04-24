@@ -13,13 +13,23 @@ angular.module('request').factory('RequestService', [ '$http', function($http) {
             });
         },
         
-        update: function(id,data,cb) {
+        accept: function(id,cb) {
             $http({
-                url: '/api/trade/'+id,
-                method: 'PUT',
-                headers: {selected: data}
+                url: '/api/trade/accept/'+id,
+                method: 'PUT'
             }).then(function(res) {
-                cb(res);
+                cb(res,id);
+            }, function(err) {
+                cb(err);
+            });
+        },
+        
+        deny: function(id,cb) {
+            $http({
+                url: '/api/trade/deny/'+id,
+                method: 'PUT'
+            }).then(function(res) {
+                cb(res,id);
             }, function(err) {
                 cb(err);
             });
@@ -34,7 +44,18 @@ angular.module('request').factory('RequestService', [ '$http', function($http) {
             }, function(err) {
                 cb(err);
             });
-        } 
+        },
+        
+        remove: function(id,cb) {
+            $http({
+                url: '/api/trade/'+id,
+                method: 'DELETE',
+            }).then(function(res) {
+                cb(res);
+            }, function(err) {
+                cb(err);
+            });
+        }
     }
     
 }]);

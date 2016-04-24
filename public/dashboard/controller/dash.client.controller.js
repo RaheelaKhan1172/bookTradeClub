@@ -140,6 +140,43 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     
     
     /********************* TRADE REQUESTS **************************************/
+    var tradeResult = function(response,id) {
+        console.log(response,'res');
+        for (var i = 0; i < $scope.user.requestBy.length; i++) {
+                if ($scope.user.requestBy[i]._id == id) {
+                    $scope.user.requestBy[i].status = 'Request' + response.data.status;
+                }
+            }
+        
+        if (response.data.status === "Denied") {
+            console.log('hi');
+                $scope.user.requestBy = $scope.user.requestBy.filter(function(a,i) {
+                    return a._id != id;
+                });
+                console.log($scope.user,id);
+        }
+    };
+    
+    $scope.accept = function(id) {
+        console.log('id',id);
+        RequestService.accept(id,tradeResult(res,id)); 
+    }
+    
+    $scope.deny = function(id) {
+        console.log('in deny', id);
+        RequestService.deny(id,tradeResult);
+    };
+    
+    //also cancel request
+    $scope.remove = function(id) {
+        console.log('in here',id);
+        RequestService.remove(id,function(res) {
+            $scope.user.requestMade = $scope.user.requestMade.filter(function(a,i) {
+                return a._id != id;
+            });
+        });
+    };
+        
     
     
 }]);

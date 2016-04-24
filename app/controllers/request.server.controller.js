@@ -118,7 +118,7 @@ exports.update = function(req,res,next) {
     var trade = req.trade;
     
     trade.status = 'Accepted';
-    trade.acceptedFor = req.headers.selected;
+ //   trade.acceptedFor = req.headers.selected; not neccessary since requested by is single
     Book.findById(trade.book._id).exec(function(err,book) {
         if (err) {
             return res.status(400).send({
@@ -149,12 +149,94 @@ exports.update = function(req,res,next) {
     });
 };
 
+
 /**
 **
 ** @return {Object}
 **
 **/
 
+exports.updateDeny = function(req,res,next) {
+    console.log('in deny',req.trade);
+    var trade = req.trade;
+    trade.status = 'Denied';
+    Book.findById(trade.for._id).exec(function(err,book) {
+        console.log('book', book);
+        var ind = book.tradeRequest.indexOf(trade._id);
+        var removed =  book.tradeRequest.splice(ind,1);
+        console.log('user',removed,book);
+        trade.bookOwner = {};
+        book.save(function(err) {
+            console.log('trade',trade)
+            if (err) {
+                return res.status(400).send({
+                    message:err
+                });
+            } else {
+                trade.save(function(err) {
+                    if (err) {
+                        return res.status(400).send({
+                            message:err
+                        });
+                    } else {
+                        console.log(trade,'trade');
+                        return res.json(trade);
+                    }
+                });
+            }
+        });
+    });
+};
+
+
+/**
+**
+** @return {Object}
+**
+**/
+
+exports.delete = function(req,res,next) {
+    req.trade.remove(function(err) {
+        if (err) {
+            return next(err);
+        } else {
+            User.findById(req.trade.requestedBy).exec(function(err,user) {
+                console.log('user',user);
+                if (err) {
+                    return res.status(400).send({
+                        message:err
+                    });
+                } else {
+                    user.requestMade.splice(user.requestMade.indexOf(req.trade._id), 1);
+                
+                    Book.findById(req.trade.for).exec(function(err,book) {
+                        console.log('book',book);
+                        if (err) {
+                            return res.status(400).send({
+                                message:err
+                            });
+                        } else {
+                            book.tradeRequest.splice(book.tradeRequest.indexOf(req.trade._id),1);
+                            user.save(function(err) {
+                                if (err) {
+                                    return next(err);
+                                } else {
+                                    book.save(function(err) {
+                                        if (err) {
+                                            return next(err);
+                                        } else {
+                                            return res.json(req.trade);
+                                        }
+                            });
+                        }
+                    });
+                        }
+                });
+                }
+            });
+        }
+    });
+}
 
 
 exports.getRequestID = function(req,res,next,id) {
