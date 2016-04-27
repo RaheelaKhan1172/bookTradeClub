@@ -166,6 +166,20 @@ exports.addBook = function(req,res,next) {
 **/
 
 // delete a book
+
+function deleteUserBook(user,book,res) {
+      user.save(function(err) {
+                        if (err) {
+                            return res.status(400).send({
+                                message:err
+                            });
+                        } else {
+                            console.log('done', user);
+                            return res.status(200).json(book);
+                        }
+                    });
+}
+
 exports.remove = function(req,res,next) {
     var book = req.book;
     
@@ -182,7 +196,7 @@ exports.remove = function(req,res,next) {
                     });
                 } else {
                     var ind = user.books.indexOf(book.id);
-                    user.books = user.books.splice(ind,1);
+                    user.books.splice(ind,1);
                     
                     Trade.find({for: book._id}, function(err,trade) {
                         if (err) {
@@ -190,30 +204,31 @@ exports.remove = function(req,res,next) {
                                 message:err
                             });
                         }
-                    trade.status = 'This book has been removed by owner.';
-                    trade.save(function(err) {
-                        if(err) {
-                            return res.status(400).send({
-                                message:err
-                            });
-                        }
-                    user.save(function(err) {
-                        if (err) {
-                            return res.status(400).send({
-                                message:err
+                        if (trade.length) {
+                        console.log('trade', trade);
+                            trade.status = 'This book has been removed by owner.';
+                            trade.save(function(err) {
+                                if(err) {
+                                    return res.status(400).send({
+                                        message:err
+                                    });
+                                } else {
+                                    deleteUserBook(user,book,res);
+                                }
                             });
                         } else {
-                            console.log('done', user);
-                            return res.status(200).json(book);
+                        
+                            deleteUserBook(user,book,res);
+                            
                         }
-                    });
-                })
-                    });
-                }
-            });
-        } 
-    });
-};
+                  
+                });
+                    };
+                });
+            }
+        }); 
+    };
+
 
 /*** update book **/
 

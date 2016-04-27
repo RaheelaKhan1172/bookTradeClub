@@ -1,11 +1,39 @@
+
 <section ng-cloak ng-controller="DashController" ng-init="getData()">
-    <section ng-controller="UserController">
-        <div ng-init="findData()">
-            <h3>Hi {{user.firstName}} </h3>
-        </div>
-        <button class="btn btn-default" ng-click="signOut()">Signout</button>
-        
-            <!-- change style -->
+
+    <div  class="container-fluid">
+        <div class="row">
+            
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li class="active">
+                        <button value="profile" ng-click="toggleClick($event)">Profile</button>
+                        <span class="sr-only">(current)</span>
+                    </li>
+                    <li>
+                        <button value="books" ng-click="toggleClick($event)">My books</button>
+                        <span class="sr-only">(My Books)</span>
+                    </li>
+                    <li>
+                        <button value="tradeUser" ng-click="toggleClick($event)">Trades I requested</button>
+                        <span class="sr-only">(Trades I requested)</span>
+                    </li>
+                    <li>
+                        <button value="tradeOther" ng-click="toggleClick($event)">Trade requests for me</button>
+                        <span class="sr-only">(Trade requests for Me)</span>
+                    </li>
+                    <li>
+                        <button value="add" ng-click="toggleClick($event)">Add a book</button> 
+                        <span class="sr-only">(Add a book)</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="col-sm-9 col-sm-3 col-md-10 col-md-2 main">
+               <h1 class="name" ng-cloak>Hi {{user.firstName}} </h1>
+                    <!-- edit data -->
+
+            <!-- change style
             <form novalidate ng-submit="update()">
                 <div class="form-group">
                     <input type="text" class="form-control" ng-model="updatedValues.city">
@@ -14,78 +42,81 @@
                     <input type="text" class="form-control" ng-model="updatedValues.state">
                 </div>
                 <input type="submit">
-            </form>
-    </section>
-    
-    
-    
-    
-    <h3 ng-hide="currentUserBooks.length">No books yet! Add a book!</h3>
-    <h3 ng-show="currentUserBooks.length">{{currentUserBooks.length}} books </h3>
-    
-    <button value="books" ng-click="toggleClick($event)">My books</button>
-    <button value="tradeUser" ng-click="toggleClick($event)">Trades I requested</button>
-    <button value="tradeOther" ng-click="toggleClick($event)">Trade requests for me</button>
-    <button value="add" ng-click="toggleClick($event)">Add a book</button> 
-    
+                    </form>
+                -->
+                
+             
     <!-- handle different stuff based on user choice --> 
     
-    <div ng-show="value.books">
-        <div ng-repeat="book in currentUserBooks" ng-init="btnId=book.id">
-            <h3 data-ng-bind="book.title"> </h3>
-            <button type="button" ng-value="btnId" ng-click="remove(btnId)">delete</button> 
-        </div>
-    </div>
-    
-    <div ng-show="value.tradeUser">
-              <div ng-show="user.requestMade.length">
-                <div ng-repeat="trade in user.requestMade" ng-init="btnId=trade._id">
-                    <h1>{{trade.status}}</h1>
-                    <h2> {{trade.for.title}}, by {{trade.for.author}}</h2>
-                    <button type="button" ng-value="btnId" ng-click="remove(btnId)">cancel request</button>
+                <div ng-show="value.books">
+                    <h3 ng-hide="currentUserBooks.length">No books yet! Add a book!</h3>
+                    <h3 ng-show="currentUserBooks.length">{{currentUserBooks.length}} books </h3>
+                    <div ng-repeat="book in currentUserBooks" ng-init="btnId=book.id">
+                        <h3 data-ng-bind="book.title"> </h3>
+                        <button type="button" ng-value="btnId" ng-click="remove(btnId)">delete</button> 
+                    </div>
                 </div>
-        </div>
-        <div ng-hide="user.requestMade.length">
-            You have not requested any books.
-        </div>
-    </div>
     
-    <div ng-show="value.tradeOther">
-        <div ng-show="user.requestBy.length">
-            <div ng-repeat="trade in user.requestBy" ng-init="btnId = trade._id">
-                <h1> {{trade.for.title}} </h1>
-                <h3> by: {{trade.requestedBy.firstName}} {{trade.status}}</h3>
-                <button type="button" ng-value="btnId" ng-click="accept(btnId)">Accept trade?</button>
-                <button type="button" ng-value="btnId" ng-click="deny(btnId)">Deny?</button>
-            </div>
-        </div>
-        
-        <div ng-hide="user.requestBy.length">
-            No requests for you.
-        </div>
-    </div>
+    <!-- trades uer requested -->
+                <div ng-show="value.tradeUser">
+                          <div ng-show="user.requestMade.length">
+                            <div ng-repeat="trade in user.requestMade" ng-init="btnId=trade._id">
+                                <span>{{trade.status}}</span>
+                                <span ng-bind="trade.status"></span>
+                                <h2> {{trade.for.title}}, by {{trade.for.author}}</h2>
+                                <button class='cancel' type="button" ng-value="btnId" ng-click="remove(btnId)">cancel request</button>
+                            </div>
+                    </div>
+                    <div ng-hide="user.requestMade.length">
+                        <span class="null">You have not requested any books.</span>
+                    </div>
+                </div>
+    <!--- end trades user requested -->
+    
+    
+    <!-- trades for current users books -->
+                <div ng-show="value.tradeOther">
+                    <div ng-show="user.requestBy.length">
+                        <div ng-repeat="trade in user.requestBy" ng-init="btnId = trade._id">
+                            <h1> {{trade.for.title}} </h1>
+                            <h3> by: {{trade.requestedBy.firstName}} {{trade.status}}</h3>
+                            <div ng-if="trade.status === 'Pending'"> 
+                                 <button type="button" ng-value="btnId" ng-click="accept(btnId)">Accept trade?</button>
+                                <button type="button" ng-value="btnId" ng-click="deny(btnId)">Deny?</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-hide="user.requestBy.length">
+                        No requests for you.
+                    </div>
+                </div>
+    <!---------------------------------------->
     
     <!-- show form to add a new book -->
-    <div ng-show="value.add">
-        <form name="addBook" enctype="multipart/form-data" ng-submit="submit()" novalidate>
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input type="title" name="title" class="form-control" ng-model="book.title" id="title" placeholder="Title" required>
-                <p ng-show="addBook.title.$invalid && !addBook.title.$pristine" class="help-block">Title is required.</p>
-            </div>
-            <div class="form-group">
-                <label for="author">Author</label>
-                <input type="author" name="author" class="form-control" ng-model="book.author" id="author" placeholder="Author" required>
-                <p ng-show="addBook.author.$invalid &&!addBook.author.$pristine" class="help-block">Author is required.</p>
-            </div>
-            <div class="form-group">
-                Upload own photo? <input type="checkbox" ng-model="checked"><br/>
-                <div ng-show="checked">
-                    <label for="upload">Upload photo of book</label>
-                    <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" id="upload">
+                <div ng-show="value.add">
+                    <form name="addBook" enctype="multipart/form-data" ng-submit="submit()" novalidate>
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="title" name="title" class="form-control" ng-model="book.title" id="title" placeholder="Title" required>
+                            <p ng-show="addBook.title.$invalid && !addBook.title.$pristine" class="help-block">Title is required.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="author">Author</label>
+                            <input type="author" name="author" class="form-control" ng-model="book.author" id="author" placeholder="Author" required>
+                            <p ng-show="addBook.author.$invalid &&!addBook.author.$pristine" class="help-block">Author is required.</p>
+                        </div>
+                        <div class="form-group">
+                            Upload own photo? <input type="checkbox" ng-model="checked"><br/>
+                            <div ng-show="checked">
+                                <label for="upload">Upload photo of book</label>
+                                <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" id="upload">
+                            </div>
+                        </div>
+                        <button type="submit" ng-disabled="addBook.$invalid">Add</button>
+                    </form>
                 </div>
             </div>
-            <button type="submit" ng-disabled="addBook.$invalid">Add</button>
-        </form>
+        </div>
     </div>
 </section>

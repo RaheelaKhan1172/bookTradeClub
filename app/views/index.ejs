@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <% include ./partials/header %>
   </head>
   
   <body ng-cloak>
+      <div ng-include="'partials/header.html'"></div>
 
-      
       <section ng-view ng-cloak></section>
       
       <% include ./partials/links %>

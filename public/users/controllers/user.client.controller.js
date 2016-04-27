@@ -110,6 +110,7 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
           
       
    
+      /* move into dashboard **/
       
     $scope.update = function() {
         console.log($scope.updatedValues);

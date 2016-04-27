@@ -51,7 +51,7 @@ angular.module('request').factory('RequestService', [ '$http', function($http) {
                 url: '/api/trade/'+id,
                 method: 'DELETE',
             }).then(function(res) {
-                cb(res);
+                cb(res,id);
             }, function(err) {
                 cb(err);
             });

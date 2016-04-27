@@ -116,15 +116,17 @@ exports.post = function(req,res,next) {
 
 exports.update = function(req,res,next) {
     var trade = req.trade;
-    
+    console.log('hi');
     trade.status = 'Accepted';
  //   trade.acceptedFor = req.headers.selected; not neccessary since requested by is single
-    Book.findById(trade.book._id).exec(function(err,book) {
+    Book.findById(trade.for._id).exec(function(err,book) {
+        console.log('book',book);
         if (err) {
             return res.status(400).send({
                 message:err
             })
         } else {
+            console.log('hello in here');
             book.available = false;
             book.save(function(err) {
                 if (err) {
@@ -134,14 +136,13 @@ exports.update = function(req,res,next) {
                 } else {
                     trade.save(function(err) {
                         if (err) {
-                            if (err) {
                                 return res.status(400).send({
                                     message:err
                                 }); 
                             } else {
+                                console.log('do I happen?');
                                 return res.json(trade);
                             }
-                        }
                     });
                 };
             });

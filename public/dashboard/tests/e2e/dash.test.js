@@ -5,7 +5,7 @@ describe('Dashboard tests',function() {
             
             element(by.model('user.firstName')).sendKeys('test14');
             element(by.model('user.lastName')).sendKeys('test14');
-            element(by.model('user.email')).sendKeys('test14@test.com');
+            element(by.model('user.email')).sendKeys('test18@test.com');
             element(by.model('user.password')).sendKeys('123456789');
             
             element(by.css('button[type=submit]')).click();

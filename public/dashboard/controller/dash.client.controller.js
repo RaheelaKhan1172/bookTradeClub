@@ -144,7 +144,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
         console.log(response,'res');
         for (var i = 0; i < $scope.user.requestBy.length; i++) {
                 if ($scope.user.requestBy[i]._id == id) {
-                    $scope.user.requestBy[i].status = 'Request' + response.data.status;
+                    $scope.user.requestBy[i].status = response.data.status;
                 }
             }
         
@@ -159,7 +159,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     
     $scope.accept = function(id) {
         console.log('id',id);
-        RequestService.accept(id,tradeResult(res,id)); 
+        RequestService.accept(id,tradeResult); 
     }
     
     $scope.deny = function(id) {
