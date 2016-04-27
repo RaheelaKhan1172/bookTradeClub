@@ -6,26 +6,39 @@
             
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li class="active">
-                        <button value="profile" ng-click="toggleClick($event)">Profile</button>
-                        <span class="sr-only">(current)</span>
-                    </li>
                     <li>
-                        <button value="books" ng-click="toggleClick($event)">My books</button>
+                        <div class="btn">
+                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'Books'">My books</label>
+                        </div>
                         <span class="sr-only">(My Books)</span>
                     </li>
                     <li>
-                        <button value="tradeUser" ng-click="toggleClick($event)">Trades I requested</button>
+                        <div class="btn">
+                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'add'">Add a book</label>
+                        </div>
+                        <span class="sr-only">(Add a book)</span>
+                    </li>
+                    <li>
+                        <div class="btn">
+                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'tradeUser'">
+                            Trades I requested</label>
+                        </div>
+     
                         <span class="sr-only">(Trades I requested)</span>
                     </li>
                     <li>
-                        <button value="tradeOther" ng-click="toggleClick($event)">Trade requests for me</button>
+                        <div class="btn">
+                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'tradeOther'">Trade requests for me</label>
+                        </div>
                         <span class="sr-only">(Trade requests for Me)</span>
                     </li>
-                    <li>
-                        <button value="add" ng-click="toggleClick($event)">Add a book</button> 
-                        <span class="sr-only">(Add a book)</span>
+                      <li>
+                        <div class="btn">
+                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'Profile'">Profile</label>
+                        </div>
+                        <span class="sr-only">(Profile)</span>
                     </li>
+                    
                 </ul>
             </div>
             
@@ -47,8 +60,22 @@
                 
              
     <!-- handle different stuff based on user choice --> 
-    
-                <div ng-show="value.books">
+                <div ng-show="currValue==='Profile'">
+                    update profile
+                    <form class="formClass" novalidate ng-submit="update()">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" placeholder="City" class="form-control" ng-model="updatedValues.city">
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" placeholder="State" class="form-control" ng-model="updatedValues.state">
+                        </div>
+                        <input type="submit">
+                    </form>
+                </div>
+                
+                <div ng-show="currValue==='Books'">
                     <h3 ng-hide="currentUserBooks.length">No books yet! Add a book!</h3>
                     <h3 ng-show="currentUserBooks.length">{{currentUserBooks.length}} books </h3>
                     <div ng-repeat="book in currentUserBooks" ng-init="btnId=book.id">
@@ -58,7 +85,7 @@
                 </div>
     
     <!-- trades uer requested -->
-                <div ng-show="value.tradeUser">
+                <div ng-show="currValue === 'tradeUser'">
                           <div ng-show="user.requestMade.length">
                             <div ng-repeat="trade in user.requestMade" ng-init="btnId=trade._id">
                                 <span>{{trade.status}}</span>
@@ -75,7 +102,7 @@
     
     
     <!-- trades for current users books -->
-                <div ng-show="value.tradeOther">
+                <div ng-show="currValue==='tradeOther'">
                     <div ng-show="user.requestBy.length">
                         <div ng-repeat="trade in user.requestBy" ng-init="btnId = trade._id">
                             <h1> {{trade.for.title}} </h1>
@@ -94,7 +121,7 @@
     <!---------------------------------------->
     
     <!-- show form to add a new book -->
-                <div ng-show="value.add">
+                <div ng-show="currValue==='add'">
                     <form name="addBook" enctype="multipart/form-data" ng-submit="submit()" novalidate>
                         <div class="form-group">
                             <label for="title">Title</label>

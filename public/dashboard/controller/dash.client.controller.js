@@ -3,8 +3,9 @@
 angular.module('dashboard').controller('DashController', ['$scope', 'Authentication', '$http', 'BookService','$location','RequestService',  function($scope,Authentication,$http, BookService,$location,RequestService) {
     console.log('hi hi hi');
     $scope.user = {};
-    $scope.value = {books:false,tradeUser:false,tradeOther:false,add:false};
+//    $scope.value = {profile:true,books:false,tradeUser:false,tradeOther:false,add:false};
     $scope.book = {};
+    $scope.currValue = 'Books';
     /**
     *
     * Load data on initial page load @return{Object}
@@ -38,7 +39,7 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     **
     * Toggle clicks for display
     **
-    */
+    * deperecated 
     $scope.toggleClick = function(val) {
         for (prop in $scope.value) {
             if (prop === val.target.value) {
@@ -47,7 +48,8 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
                 $scope.value[prop] = false;
             }
         }
-    };
+        console.log($scope.value);
+    }; */
     
     /************************************* SUBMIT FORM **************************************/
     
@@ -177,6 +179,30 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
         });
     };
         
+    /** Update users city/state ***************************************************/
+    $scope.updatedValues = {city:'',state:''};
     
+    $scope.update = function() {
+        console.log($scope.updatedValues);
+        if (!$scope.updatedValues.city) {
+            console.log($scope.updatedValues);
+            $scope.updatedValues.city = $scope.user.city
+        } 
+        if (!$scope.updatedValues.state) {
+            $scope.updatedValue.state = $scope.user.state
+        }
+        
+        Authentication.updateUser($scope.user._id,$scope.updatedValues,function(res) {
+            console.log(res);
+        });
+    };
+    /******************** END UPDATE ******************************/
+    
+    
+    /******************* for active toggling *********************/
+    
+    $scope.isActive = function(viewLocation) {
+        return viewLocation === $location.url();
+    };
     
 }]);
