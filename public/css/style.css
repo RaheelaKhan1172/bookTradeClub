@@ -6,19 +6,41 @@
 
 /** navbar style **/
 
+body {
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
 #navbar ul:first-child > li:hover, #navbar .option { color: white;}
 
 #navbar ul:first-child li:hover > a, #navbar ul:first-child li:hover > a:visited, #navbar .option, #navbar .option:visited { background: none; }
 
+.option:hover {
+    opacity:0.5;
+}
 .navbar {
     background-color:#324C61;
+    opacity:0.7;
 }
+
+.icon-bar {
+    background-color:white;
+}
+
 .navbar-brand {
     color:darkblue;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight:400;
+    font-size:1.5em;
 }
+
 .clicked {
     background:white;
 }
+
+.side {
+    margin-right:40px;
+}
+
 .signoutBtn {
     border:none;
     outline:none;
@@ -29,7 +51,8 @@
     outline:none;
     color:whitesmoke;
 }
-.active{ 
+
+.active { 
     border-radius:10px;
     background-color:gray;
     opacity:0.4;
@@ -49,6 +72,96 @@
     overflow-y: auto;
     background-color: #223442;
     border-right: 1px solid #eee;
+}
+
+/*** buttons **/
+
+.btnSidebar {
+    color: white;
+}
+
+.btnSidebar.active, .btnSidebar:active, .open > .dropdown-toggle.btnSidebar {
+    background-color:gray;
+    opacity:0.4;
+}
+
+.btnSidebar:hover {
+    color:white;
+    opacity:0.5;
+}
+
+
+/** signin/ signup form **/
+
+.mForm {
+    margin-top:100px;
+    background:#324C61;
+    padding:40px;
+    max-width:600px;
+    opacity:0.8;
+    border-radius:4px;
+    box-shadow:0 4px 10px 4px rgba(19,35,47,0.3);
+    display:block;
+    
+}
+.form-control {
+    margin-bottom:10px;
+}
+.control-label {
+    color:white;
+    font-size:1.5rem;
+    opacity:0.4;
+    margin-bottom:10px;
+}
+
+
+.signup {
+    border:none;
+    outline:none;
+    padding:15px 0;
+    font-size:2rem;
+    font-weight:600;
+    background-color:indianred;
+    opacity:0.8;
+    color:whitesmoke;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    -webkit-appearance: none;
+    width:420px;
+    margin-left:15px;
+}
+.signup:hover {
+    background-color:indianred;
+}
+
+.mainTitle {
+    background-color:transparent;
+    color:white;
+    text-transform:uppercase;
+  
+    
+}
+
+@media screen and (max-width:504px) {
+    .signup {
+        margin-left:0px;
+        width:100%;
+    }
+}
+
+@media screen and (max-width:504px){
+    .jumbotron {
+        display:none;
+    }
+
+}
+@media screen and (max-height:569px) {
+    .mForm {
+        max-height:465px;
+        margin-top:65px;
+    }
 }
 
 @media screen and (max-width:767px) {

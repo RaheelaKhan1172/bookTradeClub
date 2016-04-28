@@ -1,26 +1,26 @@
-
+<section ng-include="'partials/header.html'"></section>
 <section ng-cloak ng-controller="DashController" ng-init="getData()">
 
     <div  class="container-fluid">
         <div class="row">
             
             <div class="col-sm-3 col-md-2 sidebar">
-                <ul class="nav nav-sidebar">
+                <ul class="nav nav-sidebar side">
                     <li>
                         <div class="btn">
-                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'Books'">My books</label>
+                            <label class="btn btnSidebar" ng-model="currValue" uib-btn-radio="'Books'">My books</label>
                         </div>
                         <span class="sr-only">(My Books)</span>
                     </li>
                     <li>
                         <div class="btn">
-                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'add'">Add a book</label>
+                            <label class="btn btnSidebar" ng-model="currValue" uib-btn-radio="'add'">Add a book</label>
                         </div>
                         <span class="sr-only">(Add a book)</span>
                     </li>
                     <li>
                         <div class="btn">
-                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'tradeUser'">
+                            <label class="btn btnSidebar" ng-model="currValue" uib-btn-radio="'tradeUser'">
                             Trades I requested</label>
                         </div>
      
@@ -28,13 +28,13 @@
                     </li>
                     <li>
                         <div class="btn">
-                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'tradeOther'">Trade requests for me</label>
+                            <label class="btn btnSidebar" ng-model="currValue" uib-btn-radio="'tradeOther'">Trade requests for me</label>
                         </div>
                         <span class="sr-only">(Trade requests for Me)</span>
                     </li>
                       <li>
-                        <div class="btn">
-                            <label class="btn btn-primary" ng-model="currValue" uib-btn-radio="'Profile'">Profile</label>
+                        <div class="btn ">
+                            <label class="btn btnSidebar" ng-model="currValue" uib-btn-radio="'Profile'">Profile</label>
                         </div>
                         <span class="sr-only">(Profile)</span>
                     </li>
@@ -76,7 +76,7 @@
                 </div>
                 
                 <div ng-show="currValue==='Books'">
-                    <h3 ng-hide="currentUserBooks.length">No books yet! Add a book!</h3>
+                    <h3 ng-hide="currentUserBooks.length">No books yet! Add a <label class="btn addButton" ng-model="currValue" uib-btn-radio="'add'">book</label></h3>
                     <h3 ng-show="currentUserBooks.length">{{currentUserBooks.length}} books </h3>
                     <div ng-repeat="book in currentUserBooks" ng-init="btnId=book.id">
                         <h3 data-ng-bind="book.title"> </h3>

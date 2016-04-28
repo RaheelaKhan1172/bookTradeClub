@@ -10,8 +10,8 @@
                 </button>
                 <a class="navbar-brand" href="/#!/"> Book Trade</a>
             </div>
-            <div id="navbar" class="navbar-collapse" ng-class="{collapse: isCollapsed}" ng-controller="DashController">
-                <ul class="nav navbar-nav navbar-right" ng-show="authenticated">
+            <div id="navbar" class="navbar-collapse" ng-class="{collapse: isCollapsed}">
+                <ul class="nav navbar-nav navbar-right"  ng-show="authenticated">
                             <li ng-class="{active: isActive('/books')}">
                                 <a class=" option" href="/#!/books">View all books</a>
                             </li>
@@ -19,7 +19,7 @@
                                 <a class="option" href="/#!/dashboard">Dashboard</a>
                             </li>
                             <li>
-                                <button class="btn signoutBtn" ng-click="signOut()"> Signout </button>
+                                <button class="btn option signoutBtn" ng-click="signOut()"> Signout </button>
                             </li>
                 </ul>
                     <ul ng-if="!authenticated" ng-hide="authenticated" class="nav navbar-nav navbar-right">

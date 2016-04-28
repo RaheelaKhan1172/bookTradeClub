@@ -1,3 +1,6 @@
+
+<section ng-include="'partials/header.html'"></section>
+
 <section ng-controller='BookController' ng-init='allBooks()'>
     <div ng-repeat='book in books'>
         <a href="/#!/books/{{book._id}}">{{book.title}}</a>

@@ -1,3 +1,36 @@
+describe('View', function() {
+    it('Should have a background on main page, signin and signup', function() {
+        browser.get('http://localhost:3030/#!/');
+        
+        
+        var elem = element(by.tagName('body'));
+        
+         var img = elem.getCssValue("background-image").then(function(e) {
+             expect(e.indexOf('books_texture3014.jpg')).not.toBe(-1);
+         });
+        browser.sleep(3000);
+        
+        browser.get('http://localhost:3030/#!/signin');
+        
+        var elem = element(by.tagName('body'));
+        
+         var img = elem.getCssValue("background-image").then(function(e) {
+             expect(e.indexOf('books_texture3014.jpg')).not.toBe(-1);
+         });
+        
+        browser.sleep(2000);
+        
+        browser.get('http://localhost:3030/#!/signup');
+        
+        var elem = element(by.tagName('body'));
+        
+         var img = elem.getCssValue("background-image").then(function(e) {
+             expect(e.indexOf('books_texture3014.jpg')).not.toBe(-1);
+         });
+    });
+});
+    
+
 describe('User E2E Tests:', function() {
     describe('New User Page', function() {
         it('Should be able to create a new user', function() {
@@ -5,7 +38,7 @@ describe('User E2E Tests:', function() {
             
             element(by.model('user.firstName')).sendKeys('cool');
             element(by.model('user.lastName')).sendKeys('test');
-            element(by.model('user.email')).sendKeys('cooltest17@something.com');
+            element(by.model('user.email')).sendKeys('cooltest18@something.com');
             element(by.model('user.password')).sendKeys('123456789');
             
             element(by.css('button[type=submit]')).click();
@@ -33,7 +66,7 @@ describe('User E2E Tests:', function() {
             
             browser.get('http://localhost:3030/#!/signin');
             
-            element(by.model('userLogin.username')).sendKeys('cooltest15@something.com');
+            element(by.model('userLogin.username')).sendKeys('cooltest18@something.com');
             element(by.model('userLogin.password')).sendKeys('123456789');
             browser.sleep(3000);
             element(by.css('button[type=submit]')).click();
@@ -44,6 +77,18 @@ describe('User E2E Tests:', function() {
             
             
             
+        });
+        
+        it('Should not have the same background as main page', function() {
+        browser.get("http://localhost:3030/#!/dashboard");
+        
+        var elem = element(by.tagName('body'));
+        
+         var img = elem.getCssValue("background-image").then(function(e) {
+             expect(e.indexOf('books_texture3014.jpg')).toBe(-1);
+         });
+        
+        browser.sleep(4000);
         });
         
         it('Should navigate to books and make a request on an available book', function() {
@@ -76,4 +121,4 @@ describe('User E2E Tests:', function() {
             expect(by.css('span[class=null]')).isPresent().toBe(true);
             });
         })
-    });
+    }); 

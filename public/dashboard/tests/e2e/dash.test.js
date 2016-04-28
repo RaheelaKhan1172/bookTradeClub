@@ -1,4 +1,4 @@
-describe('Dashboard tests',function() {
+/*describe('Dashboard tests',function() {
     describe('Sign up and add a book', function() {
         it('Should sign up, navigate to add a book, and add a book', function() {
             browser.get('http://localhost:3030/#!/signup');
@@ -45,4 +45,4 @@ describe('Dashboard tests',function() {
             });
         }); 
     });
-});
+}); */

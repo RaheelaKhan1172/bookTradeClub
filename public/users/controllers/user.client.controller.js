@@ -9,6 +9,7 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
       //    if (data !== null) {
               $scope.user = data;
               $scope.authenticated = true;
+          console.log('is this happening?', $scope.authenticated);
               $location.path('/dashboard');
         //      console.log(data, typeof data,$scope.user);
           //    Authentication.setData(JSON.stringify(data));
@@ -80,6 +81,7 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
           
           Authentication.signout(function() {
               $scope.authenticated = false;
+              console.log('auth',$scope.authenticated);
               $location.path('/');
           });
           
@@ -102,15 +104,22 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
            if (data) {
                 $scope.user = JSON.parse(data);
                 $scope.authenticated = true;   
-               $location.path('/dashboard');
+               console.log('I should happen');
+               if ($location.url() !== '/books' && $location.url() !== '/books/:id') {
+                  $location.path('/dashboard');
+               };
            } else {
                $scope.authenticated = false;
            }
+           console.log('auth',$scope.authenticated);
       };
           
       
    
       /* move into dashboard **/
-
+$scope.isActive = function(viewLocation) {
+    console.log('hi', viewLocation, $location.url());
+        return viewLocation === $location.url();
+    };
  
   }]);

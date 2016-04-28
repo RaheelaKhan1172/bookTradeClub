@@ -1,15 +1,20 @@
+
+<section ng-include="'partials/header.html'"></section>
+
 <section ng-cloak data-ng-controller="UserController" class="center-block text-center">
     <div ng-hide="authenticated"  ng-init="findData()" ng-cloak>
         <div ng-if="!authenticated">
-    <form novalidate class="mForm form-horizontal" data-ng-submit="signup()">
+    <form novalidate class="mForm form-horizontal center-block" data-ng-submit="signup()">
+                    <h1 class="jumbotron  mainTitle">Books? Trading?</h1>
+
         <div class="form-group">
-            <label for="firstName1" class="col-sm-2 control-label">First name</label>
+            <label for="firstName1" class="col-sm-2 control-label fname">First name</label>
             <div class="col-sm-10">
                 <input type="firstName" class="form-control" ng-model="user.firstName"id="firstName1" placeholder="First name" required>
             </div>
         </div>
         <div class="form-group">
-            <label for="lastName1" class="col-sm-2 control-label">Last name</label>
+            <label for="lastName1" class="col-sm-2 control-label fname">Last name</label>
             <div class="col-sm-10">
                 <input type="lastName" class="form-control" ng-model="user.lastName" id="lastName1" placeholder="Last name" required>
             </div>
@@ -26,15 +31,13 @@
                 <input type="password" class="form-control" ng-model="user.password" id="password1" placeholder="Password" required>
             </div>
         </div>
-        <div class="row">
         <div class="form-group">
                 <div class="col-sm-offset-2">
-                    <button type="submit" class="btn btn-default signup"> Sign up</button>
+                    <button type="submit" class="btn btn-default btn-block btn-lg signup"> Sign up</button>
                 </div>
-                <div class="col-sm-offset-2 ">
+               <!-- <div class="col-sm-offset-2 ">
                     <a class="btn btn-default" href="/#!/signin" role="button">Sign in</a>
-                </div>
-            </div>
+                </div> -->
         </div>
     </form>
     </div>
