@@ -12,6 +12,7 @@ angular.module('books').controller('BookController',['BookService', '$scope','Au
         BookService.getBook(toSend, function(response) {
             if (response.data && response.status === 200) {
                 $scope.book = response.data
+                console.log($scope.book);
             } 
         });
   //      console.log('book',$scope.book);
@@ -47,11 +48,16 @@ angular.module('books').controller('BookController',['BookService', '$scope','Au
     ** @return {Object}
     **
     **/
-    
+    $scope.alert = null;
     $scope.trade = function(id) {
         var toSend = {for: id, requestedBy:$scope.user._id}
         RequestService.post(toSend,function(response) {
-            console.log(response);
+            $scope.alert = response.message;
+            
+            setTimeout(function() {
+                $scope.alert = null;
+            },5000);
+            
         });
     };
 

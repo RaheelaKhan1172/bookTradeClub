@@ -42,6 +42,7 @@ body {
 }
 
 .signoutBtn {
+    margin-top:10px;
     border:none;
     outline:none;
     background-color:transparent;
@@ -53,10 +54,8 @@ body {
 }
 
 .active { 
-    border-radius:10px;
-    background-color:gray;
-    opacity:0.4;
-    border:none;
+    border-bottom:2px solid indianred;
+    opacity:0.7;
     outline:none;
 
 }
@@ -72,17 +71,23 @@ body {
     overflow-y: auto;
     background-color: #223442;
     border-right: 1px solid #eee;
+    width:240px;
 }
 
 /*** buttons **/
-
+.hi {
+    margin-top:55px;
+    margin-left:235px;
+}
 .btnSidebar {
     color: white;
 }
 
 .btnSidebar.active, .btnSidebar:active, .open > .dropdown-toggle.btnSidebar {
-    background-color:gray;
+    
     opacity:0.4;
+    outline:none;
+    
 }
 
 .btnSidebar:hover {
@@ -144,6 +149,136 @@ body {
     
 }
 
+/********** dashboard *********************/
+.center-block {
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
+.main {
+    margin-top:51px;
+    position:center;
+    margin-left:280px;
+}
+
+hr { 
+    display: block;
+    margin-top: 1.5em;
+    margin-bottom: 0.3em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    color:indianred;
+} 
+
+.delete {
+    background-color:transparent;
+    border:none;
+    outline:none;
+    margin-top:-10px;
+    margin-left:-10px;
+    color:indianred;
+}
+
+.bookStuff {
+    width:240px;
+}
+/***book/update profile form *********/
+
+.formClass {
+    max-width:600px;
+    margin-top:30px;
+    display:block;
+}
+
+.input:focus,textarea:focus {
+    box-shadow: 0 0 5px rgba(205, 92, 92, 1);
+    border:1px solid indianred;
+    opacity:0.6;
+}
+
+.add {
+    border:none;
+    outline:none;
+    background-color:indianred;
+    opacity:0.6;
+    color:whitesmoke;
+    width:100px;
+    height:30px;
+    font-size:1.6rem;
+    text-transform:uppercase;
+}
+.status {
+    padding-top:10px;
+    margin-bottom:-10px;
+}
+
+.bottom{
+    margin-top:100px;
+}
+
+.toggleButton {
+    margin-top:54px;
+    margin-left:240px;
+}
+.notification {
+    font-size:1.2em;
+    max-width:240px;
+}
+
+.toggle {
+    margin-left:500px;
+    margin-top:100px;
+}
+.addButton {
+    border:none;
+    outline:none;
+    background-color:indianred;
+    opacity:0.6;
+    color:whitesmoke;
+    font-size:1.4rem;
+}
+
+
+
+/********** book view *************************/
+.bookMain {
+    margin-top: 50px;
+}
+
+.imgs {
+    height:200px;
+}
+
+.select {
+    border:none;
+    outline:none;
+    background-color:transparent;
+    opacity:0.6;
+    font-size:1.5rem;
+}
+.select:hover {
+    color:indianred;
+}
+.notAvail {
+    color:indianred;
+    opacity:0.7;
+    font-size:1.5rem;
+    margin-top:12px;
+}
+/**** single book view ****/
+.title {
+    font-size:4em;
+    font-weight:300;
+}
+.bookcont {
+    margin-bottom:30px;
+}
+
+/***  breakpoints ***/
 @media screen and (max-width:504px) {
     .signup {
         margin-left:0px;
@@ -170,18 +305,35 @@ body {
     }
 }
 
-.main {
-    margin-top:51px;
-    margin-left:270px;
+
+@media screen and (max-width:767px) {
+    .sidebar {
+        display:block !important;
+    }
 }
 
 @media screen and (max-width:767px) {
+    .animateMe {
+        transition: all 1s;
+        margin-left:0px;
+        margin-right:0px;
+        padding:20px;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .sidebar { 
+        
+    }
+}
+
+/*@media screen and (max-width:767px) {
     .main,.name {
         margin-left:0px;
         margin-right:0px;
         padding:20px;
     }
-};
+}; */
 
 
 

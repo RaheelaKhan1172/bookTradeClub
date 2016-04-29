@@ -2,19 +2,33 @@
 <section ng-include="'partials/header.html'"></section>
 
 <section ng-controller='BookController' ng-init='allBooks()'>
-    <div ng-repeat='book in books'>
-        <a href="/#!/books/{{book._id}}">{{book.title}}</a>
-        <!-- if image display image -->
-        <div ng-if="book.image">
-            <img ng-src={{book.image}}>
+    <div class="container-fluid bookMain center-block">
+        <div class="row">
+            <div class="col-md-6">
+                <div ng-show="alert">
+                    <h3 class="alert alert-success" data-ng-bind="alert"></h3>
+                </div>
+            </div>
+        <div ng-repeat='book in books'>
+            <div class="clearfix" ng-if="($index % 4 === 0)"></div>
+                <div class="col-md-3 allBooks">
+                    <a class="bookStuff" href="/#!/books/{{book._id}}">{{book.title}}</a>
+                    <!-- if image display image -->
+                    <div ng-if="book.image">
+                        <img class="img-responsive imgs" ng-src={{book.image}}>
+                    </div>
+
+                    <!-- if book is available and does not belong to current user display trade -->
+                    <div ng-show=" book.owner._id !== user._id && book.available" ng-init="id=book._id">
+                        <button type="button" class="btn select" ng-click="trade(id)">request for trade</button>
+                    </div>
+                    <div ng-hide="book.available">
+                        <h5 class="notAvail">Currently unavailable</h5>
+                    </div>
+                    
+                </div>
+            </div>
         </div>
-        
-        <!-- if book is available and does not belong to current user display trade -->
-        <div ng-if=" book.owner._id !== user._id && book.available" ng-init="id=book._id">
-            <button type="button" ng-click="trade(id)">request for trade</button>
-        </div>
-        
-        
     </div>
 <!-- display all books -->
 </section>

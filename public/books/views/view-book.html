@@ -1,21 +1,42 @@
 
 <section ng-controller="BookController" ng-init="getBook()">
-    
-    <h1>Title: {{book.title}}</h1>
-    
-    <div ng-if='book.image'>
-        <img ng-src={{book.image}}>
-    </div> 
-    
-    <div ng-if='user._id === book.owner._id' ng-init="id=book._id">
-        <button type="button" ng-click='deleteBook(id)'>delete</button>
+    <div class="container-fluid singleBook center-block">
+        <div class="row">
+            <div class="col-md-12 text-center bookcont">
+                <h1 class="title">{{book.title}}</h1>
+                <hr>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-6">
+                <div ng-if='book.image'>
+                    <img ng-src={{book.image}}>
+                </div> 
+            </div>
+            <div class="col-md-6 text-center">
+                <h3 class="owner">Owner:{{book.owner.firstName}}</h3>
+                <div ng-if="book.owner.city && book.owner.state">
+                    <h4 class="notification">From: {{book.owner.city}}, {{book.owner.state}}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-xs-2">
+                <div ng-if='user._id === book.owner._id' ng-init="id=book._id">
+                    <button type="button" ng-click='deleteBook(id)'><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row text-center">
+            <div class="col-md-6">
+        <div  ng-if="book.available && user._id !== book.owner._id" ng-init="id=book._id">
+            <button type="button" class='add'ng-click="trade(id)">Request trade</button>
+        </div>
+        <div ng-hide="book.available">
+            <h1>This book is not available for trade requests!</h1>
+        </div>
+            </div>
+        </div>
     </div>
-    
-    <div ng-if="book.available && user._id !== book.owner._id" ng-init="id=book._id">
-        <button type="button" ng-click="trade(id)">Request trade</button>
-    </div>
-    <div ng-hide="book.available">
-        <h1>This book is not available for trade requests!</h1>
-    </div>
-    
 </section>

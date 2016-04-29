@@ -11,6 +11,16 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     * Load data on initial page load @return{Object}
     *
     **/
+    $scope.isToggled = false;
+    
+    $scope.toggle = function() {
+        return $scope.isToggled=false;
+    }
+    
+    $scope.toggleBack = function() {
+        $scope.isToggled = true;
+    }
+    
     $scope.getData = function() {
         $scope.currentUserBooks = [];
         var d = Authentication.getData();
@@ -201,8 +211,6 @@ angular.module('dashboard').controller('DashController', ['$scope', 'Authenticat
     
     /******************* for active toggling *********************/
     
-    $scope.isActive = function(viewLocation) {
-        return viewLocation === $location.url();
-    };
+    
     
 }]);
