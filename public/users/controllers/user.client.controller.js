@@ -17,7 +17,6 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
         //  } else {
           //    $scope.authenticated = false;
         //  }
-          console.log('new stuff', $scope.user, $scope.authenticated);
       };
       
       $scope.login = function() {
@@ -118,7 +117,6 @@ angular.module('users').controller('UserController', ['$scope','$http','$locatio
    
       /* move into dashboard **/
 $scope.isActive = function(viewLocation) {
-    console.log('hi', viewLocation, $location.url());
         return viewLocation === $location.url();
     };
  

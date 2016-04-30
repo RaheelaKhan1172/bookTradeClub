@@ -3,6 +3,9 @@
 
 <section ng-cloak data-ng-controller="UserController" class="center-block text-center">
     <div ng-hide="authenticated"  ng-init="findData()" ng-cloak>
+        <div ng-show="error">
+        <p class="alert alert-error" ng-bind="error"></p>
+    </div>
         <div ng-if="!authenticated" ng-cloak>
     <form  class="mForm form-horizontal center-block" novalidate>
                     <h1 class="jumbotron mainTitle">Book Trade</h1>
@@ -30,7 +33,4 @@
             </form>
         </div>
     </div>
-        <div ng-show="error">
-            <span ng-bind="error"></span>
-        </div>
 </section>

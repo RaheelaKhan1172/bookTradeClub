@@ -245,7 +245,6 @@ exports.getBook = function(req,res,next) {
 
 // retrieve the correct book from DB based 
 exports.bookById = function(req,res,next,id) {
-    console.log('hi in book id')
     Book.findById(id).populate('owner', '-password -salt').exec(function(err,book) {
             if (err) {
                 return next(err);
