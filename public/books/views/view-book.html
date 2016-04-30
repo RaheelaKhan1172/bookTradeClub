@@ -2,6 +2,11 @@
 <section ng-controller="BookController" ng-init="getBook()">
     <div class="container-fluid singleBook center-block">
         <div class="row">
+             <div class="col-md-6">
+                <div ng-show="alert.length">
+                    <h3 class="alert alert-success" data-ng-bind="alert"></h3>
+                </div>
+            </div>
             <div class="col-md-12 text-center bookcont">
                 <h1 class="title">{{book.title}}</h1>
                 <hr>
