@@ -2,6 +2,8 @@
 
 var fs = require('fs'),
     https = require('https'),
+    mongo = require('mongodb'),
+    objectId = mongo.ObjectID,
     User = require('mongoose').model('User'),
     Book = require('mongoose').model('Book'),
     config = require('../../../config/configuration'),
@@ -190,7 +192,6 @@ exports.getData = function() {
                                     });
                                     console.log(index,'index');
                                     if (index === 10) {
-                                      
                                       userAndBook(name,bookImageArr);
                                     }
                                 });
