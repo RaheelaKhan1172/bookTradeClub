@@ -7,7 +7,7 @@
         <div class="row"> <!-- main row -->
             <div ng-show="width <= 767">
                 
-                <button type="button" class="btn toggleButton" ng-class="{'animateMe': isToggled }" ng-click="isToggled=!isToggled">click me</button>
+                <button type="button" class="btn toggleButton" ng-class="{'animateMe': isToggled }" ng-click="isToggled=!isToggled">Menu</button>
                 <div ng-if="width<=767" ng-init="toggleBack()"></div>
             </div>
             <div ng-if="width > 767" ng-init="toggle()"></div>
@@ -80,9 +80,10 @@
                         <ng-pluralize class="notification" count="currentUserBooks.length" when="{'1': 'You have one book', 'other': 'You have {} books'}"></ng-pluralize> 
                         <hr>
                         <div class="row">
-                            <div ng-repeat="book in currentUserBooks" ng-init="btnId=book.id" class="col-md-4 book">
+                            <div ng-repeat="book in currentUserBooks" ng-init="btnId=book.id" class=" book">
                                 <div class="clearfix" ng-if="($index) % 3 === 0"></div>
-                                <h3 class="bookStuff" data-ng-bind="book.title"> </h3> 
+                                <div class="col-md-4">
+                                <h3 class="notification" data-ng-bind="book.title"> </h3> 
                                 <div class="row">
                                     <div class="col-xs-4">
                                             <button type="button" class="btn delete" ng-value="btnId" ng-click="remove(btnId)"><span class="glyphicon glyphicon-trash"></span></button> 
@@ -91,6 +92,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
     
     <!-- trades user requested -->
@@ -123,8 +125,8 @@
                             <h3 class="notification"> {{trade.for.title}} </h3>
                             <h4 class="notification"> by: {{trade.requestedBy.firstName}}</h4>
                             <div ng-if="trade.status === 'Pending'"> 
-                                 <button type="button" ng-value="btnId" ng-click="accept(btnId)"> glyphicon glyphicon-ok</button>
-                                <button type="button" ng-value="btnId" ng-click="deny(btnId)">glyphicon glyphicon-remove</button>
+                                 <button type="button" ng-value="btnId" ng-click="accept(btnId)"> <span class="glyphicon glyphicon-ok"></span></button>
+                                <button type="button" ng-value="btnId" ng-click="deny(btnId)"><span class="glyphicon glyphicon-remove"></span></button>
                             </div>
                         </div>
                     </div>

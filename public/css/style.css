@@ -223,10 +223,21 @@ hr {
 .toggleButton {
     margin-top:54px;
     margin-left:240px;
+    border:none;
+    outline:none;
+    background-color:#223442;
+    color:whitesmoke;
+    margin-top:50px;
+    border-top-left-radius:0px;
 }
+.toggleButton:hover {
+    color:gray;
+    opacity:0.6;
+}
+
 .notification {
     font-size:1.2em;
-    max-width:240px;
+    max-width:270px;    
 }
 
 .toggle {

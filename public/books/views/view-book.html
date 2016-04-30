@@ -15,13 +15,14 @@
             </div>
             <div class="col-md-6 text-center">
                 <h3 class="owner">Owner:{{book.owner.firstName}}</h3>
+                <h4 class="owner">Requests: {{book.tradeRequest.length}}</h4>
                 <div ng-if="book.owner.city && book.owner.state">
                     <h4 class="notification">From: {{book.owner.city}}, {{book.owner.state}}</h4>
                 </div>
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-xs-2">
+            <div class="col-xs-2 col-xs-offset-2">
                 <div ng-if='user._id === book.owner._id' ng-init="id=book._id">
                     <button type="button" ng-click='deleteBook(id)'><span class="glyphicon glyphicon-trash"></span></button>
                 </div>
