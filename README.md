@@ -7,8 +7,3 @@ to test out app:
 
 email: richard@exxample.com
 password: 123456789
-
-
-** ec2 instance is currently shut down, but link for ec2 launch is :
-
-http://booktrade.ml/ ** 
