@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 var fs = require('fs'),
     https = require('https'),
@@ -80,16 +80,16 @@ function handleIt(data,cb) {
         return cb(data.items[0].volumeInfo.imageLinks.thumbnail,data.items[0].volumeInfo.title,data.items[0].volumeInfo.authors);
     }
   
-}
+}*/
 
-function read(cb) {
+/*function read(cb) {
     
     fs.readFile(__dirname+'/names.txt','ascii', function(err,data) {
         if (err) throw err;
         
-        var names = data.split(/[0-9.]*/);
+        var names = data.split(/[0-9.]*/ /*); */ 
       
-        names = names.join('').split('\n').map(function(a) {
+     /*   names = names.join('').split('\n').map(function(a) {
             return a.trim();
         });
         
@@ -200,7 +200,7 @@ exports.getData = function() {
         }); //end get names functionc call
     
     
-}; //close function
+}; */ //close function 
 
 
 
