@@ -46,8 +46,7 @@ function getBookImage(bookArr,cb) {
         
         var bookData = {
             title: bookArr.substr(0,ind),
-            author:bookArr.substr(ind+2)
-        };
+
         
          var url = 'https://www.googleapis.com/books/v1/volumes?q='+bookData.title.toLowerCase()+'+inauthor:'+bookData.author.toLowerCase()+'&key='+config.apiKey ;
         
